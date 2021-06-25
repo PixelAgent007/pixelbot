@@ -1,8 +1,15 @@
 #!/usr/bin/env python3
 from discord import Colour, Embed
 from discord.ext import commands
+from configparser import ConfigParser
+
+# Reading config
+config = ConfigParser()
+config.read('config.ini')
+
 
 TOKEN = "ODQ4ODE2OTE1NTc3MDQ1MDAy.YLSIWg.P8tG8F3hbAzfbNQLCk0mn0OdY9I"
+# Defining Bot
 bot = commands.Bot(command_prefix='!')
 
 
