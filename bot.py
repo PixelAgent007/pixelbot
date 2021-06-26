@@ -16,7 +16,7 @@ prefix = config.get('Global', 'prefix')
 activity = discord.Game(name="!help")
 
 # Defining Bot
-bot = commands.Bot(command_prefix=prefix, activity=activity, status=discord.Status.idle)
+bot = commands.Bot(command_prefix=prefix, activity=activity, status=discord.Status.online)
 bot.remove_command("help")
 
 # Loading extensions
