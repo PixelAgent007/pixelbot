@@ -3,12 +3,7 @@ from discord.ext import commands
 from configparser import ConfigParser
 
 # Reading config
-config = ConfigParser()
-config.read('config.ini')
-
-# Getting vars
-token = config.get('Global', 'token')
-prefix = config.get('Global', 'prefix')
+config = ConfigParser().read('config.ini')
 
 
 class DarkmoonCog(commands.Cog):
@@ -61,9 +56,7 @@ class DarkmoonCog(commands.Cog):
         To install the Modpack into MMC, open up MMC and click *Add instance*, Head over to the technic section and 
         search up DarkMoonSMP. Choose either the Sodium or Optifine Version, press Ok and wait for it to download, 
         """, inline=False)
-        embed.add_field(name="Help",
-                        value="If you need help installing the modpack, feel free to ask in `#modpack-support`",
-                        inline=False)
+        embed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
         return await ctx.send(embed=embed)
 
 
@@ -74,22 +67,13 @@ class DarkmoonCog(commands.Cog):
             colour=Colour(0x71368a),
             description=""
         )
-        embed.add_field(name="Rule 1:",
-                        value="Behave. All other players are also **real** humans with **real** feelings.",
-                        inline=False)
+        embed.add_field(name="Rule 1:", value="Behave. All other players are also **real** humans with **real** feelings.", inline=False)
         embed.add_field(name="Rule 2:", value="No lag machines. Building a lag machine = Ban", inline=False)
-        embed.add_field(name="Rule 3:",
-                        value="If farms cause lag, they will be turned off by admins, if you dont turn them off yourself. **You will not be refunded any materials.**",
-                        inline=False)
-        embed.add_field(name="Rule 4:", value="You wont be refunded anything caused by trolls, scams, raids etc.",
-                        inline=False)
-        embed.add_field(name="Rule 5",
-                        value="**Set your render distance to 8!** It really helps with server lag and is a necessary step against lag.",
-                        inline=False)
+        embed.add_field(name="Rule 3:", value="If farms cause lag, they will be turned off by admins, if you dont turn them off yourself. **You will not be refunded any materials.**", inline=False)
+        embed.add_field(name="Rule 4:", value="You wont be refunded anything caused by trolls, scams, raids etc.", inline=False)
+        embed.add_field(name="Rule 5", value="**Set your render distance to 8!** It really helps with server lag and is a necessary step against lag.", inline=False)
         embed.add_field(name="Rule 6:", value="If you spawn camp, you get kicked and warned.", inline=False)
-        embed.add_field(name="Rule 7:",
-                        value="If someone is X-Raying or hacking, they get banned for 7 days, then a month, then a year, and if they keep hacking they get perma-banned.",
-                        inline=False)
+        embed.add_field(name="Rule 7:", value="If someone is X-Raying or hacking, they get banned for 7 days. If they keep hacking then they get banned for a month, then a year, and if they still keep hacking they get perma-banned.", inline=False)
         return await ctx.send(embed=embed)
 
 
@@ -100,8 +84,7 @@ class DarkmoonCog(commands.Cog):
             colour=Colour(0x71368a),
             description="Claiming is done server-side using the Fabric-LanD Mod. You need a *golden hoe* to claim land. Every player has 500 blocks available to claim."
         )
-        embed.add_field(name="Claim Land: ", value="Right-Click with a golden hoe, **OR** `/flan addClaim <x> <y> <z>`",
-                        inline=False)
+        embed.add_field(name="Claim Land: ", value="Right-Click with a golden hoe, **OR** `/flan addClaim <x> <y> <z>`", inline=False)
         embed.add_field(name="Open up the claiming menu: ", value="`/flan claim`", inline=False)
         embed.add_field(name="Delete a claim: ", value="`/flan delete`", inline=False)
         embed.add_field(name="Delete all claims: ", value="`/flan deleteAll`", inline=False)

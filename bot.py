@@ -5,8 +5,7 @@ from discord.ext import commands
 from configparser import ConfigParser
 
 # Reading config
-config = ConfigParser()
-config.read('config.ini')
+config = ConfigParser().read('config.ini')
 
 # Getting vars
 token = config.get('Global', 'token')
