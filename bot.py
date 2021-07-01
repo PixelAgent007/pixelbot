@@ -91,20 +91,20 @@ async def help(ctx):
             if str(reaction.emoji) == "▶️" and cur_page != pages:
                 cur_page += 1
                 embed = Embed(
-                    title=f"Help Page {cur_page}/{pages}",
+                    title=titles[cur_page - 1],
                     colour=Colour(0x71368a),
-                    description=contents[cur_page-1]
+                    description=contents[cur_page - 1]
                 )
-                await message.edit(embed=embed)
+                message = await ctx.send(embed=embed)
                 await message.remove_reaction(reaction, user)
             elif str(reaction.emoji) == "◀️" and cur_page > 1:
                 cur_page -= 1
                 embed = Embed(
-                    title=f"Help Page {cur_page}/{pages}",
+                    title=titles[cur_page - 1],
                     colour=Colour(0x71368a),
-                    description=contents[cur_page-1]
+                    description=contents[cur_page - 1]
                 )
-                await message.edit(embed=embed)
+                message = await ctx.send(embed=embed)
                 await message.remove_reaction(reaction, user)
             else:
                 await message.remove_reaction(reaction, user)
