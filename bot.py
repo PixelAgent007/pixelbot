@@ -95,7 +95,7 @@ async def help(ctx):
                     colour=Colour(0x71368a),
                     description=contents[cur_page - 1]
                 )
-                message = await ctx.send(embed=embed)
+                await message.edit(embed=embed)
                 await message.remove_reaction(reaction, user)
             elif str(reaction.emoji) == "◀️" and cur_page > 1:
                 cur_page -= 1
@@ -104,7 +104,7 @@ async def help(ctx):
                     colour=Colour(0x71368a),
                     description=contents[cur_page - 1]
                 )
-                message = await ctx.send(embed=embed)
+                await message.edit(embed=embed)
                 await message.remove_reaction(reaction, user)
             else:
                 await message.remove_reaction(reaction, user)
