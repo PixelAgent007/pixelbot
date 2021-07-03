@@ -38,8 +38,8 @@ async def on_ready():
 
 @bot.command(name="help")
 async def help(ctx):
-    pages = 4
     cur_page = 1
+    pages = 6
     contents = [
         f"""
         Shows information about the public beta and on the installation of the modpack.
@@ -47,34 +47,63 @@ async def help(ctx):
         Syntax: 
         `!beta`
         
-        Help Page {cur_page}/{pages}""",
+        Help Page 1/{pages}""",
         f"""
         Shows the rules. Read them carefully, because ***by playing on the server you automatically agree to them.*** 
                 
         Syntax: 
         `!rules`
         
-        Help Page {cur_page}/{pages}""",
+        Help Page 2/{pages}""",
         f"""
         Shows information on how to debug the modpack and ask for support in *#modpack-support*.
                 
         Syntax: 
         `!debug`
         
-        Help Page {cur_page}/{pages}""",
+        Help Page 3/{pages}""",
         f"""
         Shows information on how to claim land ingame.
 
         Syntax: 
         `!claiming`
 
-        Help Page {cur_page}/{pages}"""
+        Help Page 4/{pages}""",
+        f"""
+        Plays a youtube video in the VC the command sender is currently connected to.
+
+        Syntax: 
+        `!playurl <YT Link>`
+
+        Help Page 5/{pages}""",
+        f"""
+        **# Pausing**
+        Pauses the current video.
+        
+        Syntax: 
+        `!pause`
+        
+        **# Resuming**
+        Resumes the paused video.
+        
+        Syntax: 
+        `!resume`
+
+        **# Stopping **
+        Stops the current video and leaves the vc.
+        
+        Syntax: 
+        `!stop`
+        
+        Help Page 6/{pages}"""
     ]
     titles = [
         "Public Beta / Modpack",
         "Rules",
         "Debugging / Modpack Support",
         "Claiming Land",
+        "Playing Music from URL",
+        "Pausing / Resuming / Stopping"
     ]
     embed = Embed(
         title=titles[cur_page-1],
