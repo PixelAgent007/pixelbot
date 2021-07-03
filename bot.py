@@ -1,10 +1,8 @@
 import asyncio
 import discord
-import youtube_dl
 from discord import Colour, Embed
 from discord.ext import commands
 from configparser import ConfigParser
-import os
 
 # Reading config
 config = ConfigParser()

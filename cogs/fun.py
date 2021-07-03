@@ -15,8 +15,11 @@ class DarkmoonCog(commands.Cog):
 
     @commands.command(pass_context=True)
     async def rickroll(self, ctx):
-        channel = discord.utils.get(ctx.guild.voice_channels, name='test')
-        await channel.connect()
+        author = ctx.message.author.name
+        for vc in ctx.guild.voice_channels:
+            for member in vc.members:
+                if member.name == author:
+                    await vc.connect()
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.message.guild)
         if not os.path.isfile("rickroll.mp3"):
             url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
