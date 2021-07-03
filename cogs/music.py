@@ -1,8 +1,9 @@
 import discord
-from discord.ext import commands
-from configparser import ConfigParser
-import youtube_dl
 import os
+import youtube_dl
+from configparser import ConfigParser
+
+from discord.ext import commands
 
 # Reading config
 config = ConfigParser().read('config.ini')
@@ -42,7 +43,7 @@ class MusicCog(commands.Cog):
             for member in vc.members:
                 if member.name == author:
                     await vc.connect()
-        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.message.guild)
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.play(discord.FFmpegPCMAudio("song.mp3"))
 
     @commands.command()
