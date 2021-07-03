@@ -14,7 +14,7 @@ class MusicCog(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def play(self, ctx, url: str):
+    async def playurl(self, ctx, url: str):
         song_there = os.path.isfile("song.mp3")
         try:
             if song_there:
@@ -47,14 +47,6 @@ class MusicCog(commands.Cog):
         voice.play(discord.FFmpegPCMAudio("song.mp3"))
 
     @commands.command()
-    async def leave(self, ctx):
-        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-        if voice.is_connected():
-            await voice.disconnect()
-        else:
-            await ctx.send("The bot is not connected to a voice channel.")
-
-    @commands.command()
     async def pause(self, ctx):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_playing():
@@ -74,6 +66,10 @@ class MusicCog(commands.Cog):
     async def stop(self, ctx):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.stop()
+        if voice.is_connected():
+            await voice.disconnect()
+        else:
+            await ctx.send("The bot is not connected to a voice channel.")
 
 
 def setup(bot):
