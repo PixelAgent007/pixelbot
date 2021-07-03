@@ -23,7 +23,8 @@ bot.remove_command("help")
 # Loading extensions
 initial_extensions = [
     "cogs.darkmoon",
-    "cogs.fun"
+    "cogs.fun",
+    "cogs.music"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:

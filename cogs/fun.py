@@ -9,7 +9,7 @@ from discord.ext import commands
 config = ConfigParser().read('config.ini')
 
 
-class DarkmoonCog(commands.Cog):
+class FunCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -40,4 +40,4 @@ class DarkmoonCog(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(DarkmoonCog(bot))
+    bot.add_cog(FunCog(bot))
