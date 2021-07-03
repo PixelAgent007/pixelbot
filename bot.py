@@ -1,15 +1,19 @@
-import discord
 import asyncio
+import discord
+import youtube_dl
 from discord import Colour, Embed
 from discord.ext import commands
 from configparser import ConfigParser
+import os
 
 # Reading config
-config = ConfigParser().read('config.ini')
+config = ConfigParser()
+config.read("config.ini")
 
 # Getting vars
 token = config.get('Global', 'token')
 prefix = config.get('Global', 'prefix')
+players = {}
 
 # Setting activity
 activity = discord.Game(name="!help")
@@ -20,7 +24,8 @@ bot.remove_command("help")
 
 # Loading extensions
 initial_extensions = [
-    "cogs.darkmoon"
+    "cogs.darkmoon",
+    "cogs.fun"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:

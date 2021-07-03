@@ -10,7 +10,6 @@ class DarkmoonCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
     @commands.command(name='debug')
     async def debug_steps(self, ctx):
         embed = Embed(
@@ -23,7 +22,6 @@ class DarkmoonCog(commands.Cog):
         embed.add_field(name="Step 3", value="Post following info: *Launcher / Client used*, *OS with version* and *amount of RAM allocated (if you don't know, what that is, you can safely ignore it)*", inline=False)
         embed.add_field(name="This information", value="You can get this info by typing `!debug`", inline=False)
         return await ctx.send(embed=embed)
-
 
     @commands.command(name='beta')
     async def join_beta(self, ctx):
@@ -59,7 +57,6 @@ class DarkmoonCog(commands.Cog):
         embed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
         return await ctx.send(embed=embed)
 
-
     @commands.command(name='rules')
     async def send_rules(self, ctx):
         embed = Embed(
@@ -75,7 +72,6 @@ class DarkmoonCog(commands.Cog):
         embed.add_field(name="Rule 6:", value="If you spawn camp, you get kicked and warned.", inline=False)
         embed.add_field(name="Rule 7:", value="If someone is X-Raying or hacking, they get banned for 7 days. If they keep hacking then they get banned for a month, then a year, and if they still keep hacking they get perma-banned.", inline=False)
         return await ctx.send(embed=embed)
-
 
     @commands.command(name='claiming')
     async def claiming_help(self, ctx):
