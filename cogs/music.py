@@ -23,6 +23,12 @@ class MusicCog(commands.Cog):
             await ctx.send("Wait for the current playing music to end or use the 'stop' command")
             return
 
+        author = ctx.message.author.name
+        for vc in ctx.guild.voice_channels:
+            for member in vc.members:
+                if member.name == author:
+                    await vc.connect()
+
         ydl_opts = {
             'format': 'bestaudio/best',
             'postprocessors': [{
@@ -37,12 +43,6 @@ class MusicCog(commands.Cog):
             if file.endswith(".mp3"):
                 if not file == "rickroll.mp3":
                     os.rename(file, "song.mp3")
-
-        author = ctx.message.author.name
-        for vc in ctx.guild.voice_channels:
-            for member in vc.members:
-                if member.name == author:
-                    await vc.connect()
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.play(discord.FFmpegPCMAudio("song.mp3"))
 
