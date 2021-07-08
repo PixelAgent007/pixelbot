@@ -1,6 +1,6 @@
 import asyncio
 import discord
-from discord import Colour, Embed
+from discord import Colour, Embed, Member
 from discord.ext import commands
 from configparser import ConfigParser
 
@@ -23,8 +23,7 @@ bot.remove_command("help")
 # Loading extensions
 initial_extensions = [
     "cogs.darkmoon",
-    "cogs.fun",
-    "cogs.music"
+    "cogs.fun"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:
@@ -33,7 +32,23 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
-    print('Bot connected to Discord!')
+    print("Bot connected to Discord!")
+    # Role on Reaction -- Currently disabled
+    '''
+    channel = bot.get_channel(862411238351831060)
+    embed = Embed(title="Special Roles", colour=Colour(0x71368a), description="React to this message with the specified emoji to get a specific role.")
+    embed.add_field(name="Announcement Pings", value="React with 🏓(`:ping_pong:`) to get the Role.", inline=True)
+    oldmsg = await channel.history().get()
+    await oldmsg.delete()
+    msg = await channel.send(embed=embed)
+    role = discord.utils.get(channel.guild.roles, name="Announcement Ping")
+    while True:
+        reaction, user = await bot.wait_for('reaction_add')
+        user: Member
+        if reaction.emoji == "🏓":
+            await user.add_roles(user, role)
+    '''
+
 
 
 @bot.command(name="help")
@@ -68,42 +83,13 @@ async def help(ctx):
         Syntax: 
         `!claiming`
 
-        Help Page 4/{pages}""",
-        f"""
-        Plays a youtube video in the VC the command sender is currently connected to.
-
-        Syntax: 
-        `!playurl <YT Link>`
-
-        Help Page 5/{pages}""",
-        f"""
-        **# Pausing**
-        Pauses the current video.
-        
-        Syntax: 
-        `!pause`
-        
-        **# Resuming**
-        Resumes the paused video.
-        
-        Syntax: 
-        `!resume`
-
-        **# Stopping **
-        Stops the current video and leaves the vc.
-        
-        Syntax: 
-        `!stop`
-        
-        Help Page 6/{pages}"""
+        Help Page 4/{pages}"""
     ]
     titles = [
         "Public Beta / Modpack",
         "Rules",
         "Debugging / Modpack Support",
-        "Claiming Land",
-        "Playing Music from URL",
-        "Pausing / Resuming / Stopping"
+        "Claiming Land"
     ]
     embed = Embed(
         title=titles[cur_page-1],
