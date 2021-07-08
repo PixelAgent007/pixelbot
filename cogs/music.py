@@ -13,6 +13,8 @@ class MusicCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    # Disabled Playurl command
+    '''
     @commands.command()
     async def playurl(self, ctx, url: str):
         song_there = os.path.isfile("song.mp3")
@@ -45,6 +47,7 @@ class MusicCog(commands.Cog):
                     os.rename(file, "song.mp3")
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.play(discord.FFmpegPCMAudio("song.mp3"))
+    '''
 
     @commands.command()
     async def pause(self, ctx):
