@@ -38,6 +38,30 @@ class FunCog(commands.Cog):
                         os.rename(file, "rickroll.mp3")
         voice.play(discord.FFmpegPCMAudio("rickroll.mp3"))
 
+    @commands.command()
+    async def pause(self, ctx):
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+        if voice.is_playing():
+            voice.pause()
+        else:
+            await ctx.send("Currently no audio is playing.")
+
+    @commands.command()
+    async def resume(self, ctx):
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+        if voice.is_paused():
+            voice.resume()
+        else:
+            await ctx.send("The audio is not paused.")
+
+    @commands.command()
+    async def stop(self, ctx):
+        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
+        voice.stop()
+        if voice.is_connected():
+            await voice.disconnect()
+        else:
+            await ctx.send("The bot is not connected to a voice channel.")
 
 def setup(bot):
     bot.add_cog(FunCog(bot))

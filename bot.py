@@ -1,6 +1,6 @@
 import asyncio
 import discord
-from discord import Colour, Embed, Member
+from discord import Colour, Embed
 from discord.ext import commands
 from configparser import ConfigParser
 
@@ -11,20 +11,19 @@ config.read("config.ini")
 # Getting vars
 token = config.get('Global', 'token')
 prefix = config.get('Global', 'prefix')
-players = {}
+intents = discord.Intents.all()
 
 # Setting activity
 activity = discord.Game(name="!help")
 
 # Defining Bot
-bot = commands.Bot(command_prefix=prefix, activity=activity, status=discord.Status.online)
+bot = commands.Bot(command_prefix=prefix, activity=activity, status=discord.Status.online, intents=intents)
 bot.remove_command("help")
 
 # Loading extensions
 initial_extensions = [
-    "cogs.darkmoon",
-    "cogs.fun",
-    "cogs.music"
+    "cogs.darkmoonsmp",
+    "cogs.rickrolling"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:
@@ -34,22 +33,18 @@ if __name__ == '__main__':
 @bot.event
 async def on_ready():
     print("Bot connected to Discord!")
-    # Role on Reaction -- Currently disabled
-    '''
-    channel = bot.get_channel(862411238351831060)
-    embed = Embed(title="Special Roles", colour=Colour(0x71368a), description="React to this message with the specified emoji to get a specific role.")
-    embed.add_field(name="Announcement Pings", value="React with 🏓(`:ping_pong:`) to get the Role.", inline=True)
-    oldmsg = await channel.history().get()
-    await oldmsg.delete()
-    msg = await channel.send(embed=embed)
-    role = discord.utils.get(channel.guild.roles, name="Announcement Ping")
-    while True:
-        reaction, user = await bot.wait_for('reaction_add')
-        user: Member
-        if reaction.emoji == "🏓":
-            await user.add_roles(user, role)
-    '''
 
+
+@bot.event
+async def on_member_join(member):
+    if member.guild.id == 849223970598420480:
+        name = member.name
+        embed = Embed(title=f"Welcome, {name}!", colour=Colour(0x71368a), description="""
+        Welcome to the Dark Moon SMP!
+        
+        Please read the `#rules` and if you want to join the beta server, check `#public-beta`. Have a great time!
+        """)
+        await member.send(embed=embed)
 
 
 @bot.command(name="help")
