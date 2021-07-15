@@ -3,49 +3,70 @@ import discord
 from discord import Colour, Embed
 from discord.ext import commands
 from configparser import ConfigParser
-
-# Reading config
-config = ConfigParser()
-config.read("config.ini")
-
-# Getting vars
-token = config.get('Global', 'token')
-prefix = config.get('Global', 'prefix')
-intents = discord.Intents.all()
+import json
 
 # Setting activity
-activity = discord.Game(name="!help")
+activity = discord.Game(name="!help for Help")
 
 # Defining Bot
-bot = commands.Bot(command_prefix=prefix, activity=activity, status=discord.Status.online, intents=intents)
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix="", activity=activity, status=discord.Status.online, intents=intents)
 bot.remove_command("help")
+
+# Reading config
+with open('settings.json', 'r') as f:
+    bot.config = json.load(f)
+
+# Getting vars from config
+token = bot.config["GLOBAL"]["TOKEN"]
+prefix = bot.config["GLOBAL"]["PREFIX"]
+bot.command_prefix = prefix
 
 # Loading extensions
 initial_extensions = [
     "cogs.darkmoonsmp",
-    "cogs.rickrolling"
+    "cogs.rickrolling",
+    "cogs.suggestions"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:
         bot.load_extension(extension)
 
 
+async def add_guild():
+    if not "GUILDS" in bot.config:
+            bot.config["GUILDS"] = {}
+    for guild in bot.guilds:
+        gid = str(guild.id)
+        if gid not in bot.config["GUILDS"]:
+            bot.config["GUILDS"][gid] = {
+            "TOGGLED": "ON",
+            "OUTPUT": None,
+            "ID": "1"
+            }
+            print(f"Added new server to the config file ({guild.name})")
+            with open('settings.json', 'w') as f:
+                json.dump(bot.config, f, indent=2)
+
+
 @bot.event
 async def on_ready():
     print("Bot connected to Discord!")
+    # await add_guild()
 
 
 @bot.event
 async def on_member_join(member):
     if member.guild.id == 849223970598420480:
         name = member.name
+        role = member.guild.get_role()
+        await member.add_roles(role)
         embed = Embed(title=f"Welcome, {name}!", colour=Colour(0x71368a), description="""
         Welcome to the Dark Moon SMP!
         
         Please read the `#rules` and if you want to join the beta server, check `#public-beta`. Have a great time!
         """)
         await member.send(embed=embed)
-
 
 @bot.command(name="help")
 async def help(ctx):
@@ -79,7 +100,14 @@ async def help(ctx):
         Syntax: 
         `!claiming`
 
-        Help Page 4/{pages}"""
+        Help Page 4/{pages}""",
+        f"""
+        Make a suggestion in `#suggestions`. The bot will start asking you questions, that you just have to answer.
+
+        Syntax: 
+        `!suggest`
+
+        Help Page 5/{pages}"""
     ]
     titles = [
         "Public Beta / Modpack",
