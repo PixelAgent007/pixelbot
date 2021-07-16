@@ -2,7 +2,7 @@ import asyncio
 import discord
 from discord import Colour, Embed
 from discord.ext import commands
-from configparser import ConfigParser
+from discord.utils import get
 import json
 
 # Setting activity
@@ -59,7 +59,7 @@ async def on_ready():
 async def on_member_join(member):
     if member.guild.id == 849223970598420480:
         name = member.name
-        role = member.guild.get_role()
+        role = member.guild.get_role(864783434151624704)
         await member.add_roles(role)
         embed = Embed(title=f"Welcome, {name}!", colour=Colour(0x71368a), description="""
         Welcome to the Dark Moon SMP!
@@ -67,6 +67,7 @@ async def on_member_join(member):
         Please read the `#rules` and if you want to join the beta server, check `#public-beta`. Have a great time!
         """)
         await member.send(embed=embed)
+
 
 @bot.command(name="help")
 async def help(ctx):
