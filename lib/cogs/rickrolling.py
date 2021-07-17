@@ -1,13 +1,7 @@
 import discord
 import os
 import youtube_dl
-from configparser import ConfigParser
-
 from discord.ext import commands
-
-# Reading config
-config = ConfigParser().read('config.ini')
-
 
 class FunCog(commands.Cog):
     def __init__(self, bot):

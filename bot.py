@@ -4,17 +4,16 @@ from discord import Colour, Embed
 from discord.ext import commands
 from discord.utils import get
 import json
-
 # Setting activity
 activity = discord.Game(name="!help for Help")
 
 # Defining Bot
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix="", activity=activity, status=discord.Status.online, intents=intents)
+bot = commands.Bot(command_prefix="", activity=activity, status=discord.Status.online, intents=intents, owner_id=487247155741065229)
 bot.remove_command("help")
 
 # Reading config
-with open('settings.json', 'r') as f:
+with open('config/settings.json', 'r') as f:
     bot.config = json.load(f)
 
 # Getting vars from config
@@ -24,9 +23,10 @@ bot.command_prefix = prefix
 
 # Loading extensions
 initial_extensions = [
-    "cogs.darkmoonsmp",
-    "cogs.rickrolling",
-    "cogs.suggestions"
+    "lib.cogs.darkmoonsmp",
+    "lib.cogs.rickrolling",
+    "lib.cogs.suggestions",
+    "lib.cogs.leveling"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:
@@ -45,9 +45,8 @@ async def add_guild():
             "ID": "1"
             }
             print(f"Added new server to the config file ({guild.name})")
-            with open('settings.json', 'w') as f:
+            with open('config/settings.json', 'w') as f:
                 json.dump(bot.config, f, indent=2)
-
 
 @bot.event
 async def on_ready():

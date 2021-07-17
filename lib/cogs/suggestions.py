@@ -67,7 +67,7 @@ class Suggest(commands.Cog):
             id = self.bot.config["GUILDS"][str(ctx.guild.id)]["ID"]
             newid = int(id) + 1
             self.bot.config["GUILDS"][str(ctx.guild.id)]["ID"] = str(newid)
-            with open('settings.json', 'w') as f:
+            with open('config/settings.json', 'w') as f:
                 json.dump(self.bot.config, f, indent=2)
 
 def setup(bot):
