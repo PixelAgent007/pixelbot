@@ -63,7 +63,7 @@ async def on_member_join(member):
         embed = Embed(title=f"Welcome, {name}!", colour=Colour(0x71368a), description="""
         Welcome to the Dark Moon SMP!
         
-        Please read the `#rules` and if you want to join the beta server, check `#public-beta`. Have a great time!
+        Please read the `#rules` and if you want to join the official server, check `#how-to-join`. Have a great time!
         """)
         await member.send(embed=embed)
 
@@ -74,7 +74,7 @@ async def help(ctx):
     pages = 6
     contents = [
         f"""
-        Shows information about the public beta and on the installation of the modpack.
+        Shows information about the server and on the installation of the modpack.
         
         Syntax: 
         `!beta`
