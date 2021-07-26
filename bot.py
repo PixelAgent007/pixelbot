@@ -14,13 +14,13 @@
 #
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
 import asyncio
 import discord
 from discord import Colour, Embed
 from discord.ext import commands
 from discord.utils import get
 import json
+
 # Setting activity
 activity = discord.Game(name="!help for Help")
 
