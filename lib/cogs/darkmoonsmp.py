@@ -1,12 +1,12 @@
 from discord import Colour, Embed
 from discord.ext import commands
-
+from discord_slash import cog_ext
 
 class DarkmoonCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='debug')
+    @cog_ext.cog_slash(name='debug')
     async def debug_steps(self, ctx):
         embed = Embed(
             title="Debugging Steps for the Modpack",
