@@ -9,7 +9,9 @@ See **LICENSE** for the full license or the header of **bot.py** for a shorter v
 ## Requirements
 + Python => 3.7.3
 + Diverse pip packages (install by running):
+
 `python -m pip install -r requirements.txt`
 (or `python3 -m pip install -r requirements.txt`, depends on your setup)
+
 + ffmpeg
 + sqlite3 => 3.36.0
