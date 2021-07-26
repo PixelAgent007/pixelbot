@@ -3,24 +3,35 @@ from discord.ext import commands
 import discord
 import asyncio
 import json
-from db import db
+from sqlite3 import connect
 from random import randint
+
+DB_PATH = "config/db/database.db"
+cxn = connect(DB_PATH, check_same_thread=False)
+cur = cxn.cursor()
+
+def execute(command, *values):
+	cur.execute(command, tuple(values))
+
+def record(command, *values):
+	cur.execute(command, tuple(values))
+	return cur.fetchone()
 
 class LevelCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     async def update_data(self, user):
-        if not db.record("SELECT EXISTS (SELECT 1 FROM exp WHERE UserID=?))", user.id) == True:
-            db.execute("INSERT INTO exp (UserID, XP, Level) VALUES(?, 0, 1)", user.id)
+        if not record("SELECT EXISTS (SELECT 1 FROM exp WHERE UserID=?))", user.id) == True:
+            execute("INSERT INTO exp (UserID, XP, Level) VALUES(?, 0, 1)", user.id)
     
     async def add_experience(self, user):
-        xp = int(db.record("SELECT XP FROM exp WHERE UserID = ?", user.id))
-        lvl = int(db.record("SELECT Level FROM exp WHERE UserID = ?", user.id))
+        xp = int(record("SELECT XP FROM exp WHERE UserID = ?", user.id))
+        lvl = int(record("SELECT Level FROM exp WHERE UserID = ?", user.id))
         xp_to_add = randint(10, 20)
         new_lvl = int(((xp+xp_to_add)//42) ** 0.55)
 
-        db.execute("UPDATE exp SET XP = XP + ?, Level = ? WHERE UserID = ?", xp_to_add, new_lvl, user.id)
+        execute("UPDATE exp SET XP = XP + ?, Level = ? WHERE UserID = ?", xp_to_add, new_lvl, user.id)
         if new_lvl > lvl:
             embed = Embed(title="Level Up!", color=Colour(0x71368a), description=f"{user.mention} reached Level {new_lvl:,}, GG!")
             await self.channel.send(embed=embed)
