@@ -11,6 +11,7 @@ See **LICENSE** for the full license or the header of **bot.py** for a shorter v
 + Diverse pip packages (install by running):
 
 `python -m pip install -r requirements.txt`
+
 (or `python3 -m pip install -r requirements.txt`, depends on your setup)
 
 + ffmpeg
