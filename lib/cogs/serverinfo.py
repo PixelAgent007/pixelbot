@@ -2,12 +2,15 @@ from discord import Colour, Embed
 from discord.ext import commands
 from discord_slash import cog_ext
 from discord_slash.utils.manage_commands import create_option, create_choice
+from discord.utils import get
+from discord import TextChannel
+import discord
 
 class InfoCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name="debug")
+    @cog_ext.cog_slash(name="debug", description="Shows help on how to debug the modpack.")
     async def debug_steps(self, ctx):
         embed = Embed(
             title="Debugging Steps for the Modpack",
@@ -17,7 +20,22 @@ class InfoCog(commands.Cog):
         embed.add_field(name="Step 1", value="Describe the problem.", inline=False)
         embed.add_field(name="Step 2", value="Take screenshots and/or get logs.", inline=False)
         embed.add_field(name="Step 3", value="Post following info: *Launcher / Client used*, *OS with version* and *amount of RAM allocated (if you don't know, what that is, you can safely ignore it)*", inline=False)
-        embed.add_field(name="This information", value="You can get this info by typing `!debug`", inline=False)
+        embed.add_field(name="This information", value="You can get this info by typing `/debug`", inline=False)
+        return await ctx.send(embed=embed)
+
+    @cog_ext.cog_slash(name="server", description="Shows important information like IP, Server version etc.")
+    async def serverinfo(self, ctx):
+        channel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
+        embed = Embed(
+            title="Debugging Steps for the Modpack",
+            colour=Colour(0x71368a),
+            description="If the modpack crashes / doesn't start, please describe your problem using the following debug steps and post them in `#modpack-support`."
+        )
+        embed.add_field(name="IP:", value="darkmoonsmp.duckdns.org:25635", inline=False)
+        embed.add_field(name="Version:", value="1.16.5 - Fabric", inline=False)
+        embed.add_field(name="Implemented Datapacks:", value="https://docs.google.com/document/d/1OhRB2pyAqVy8mNCKSw0AZkHZu6eRu0BUYEYrFr3OoHw/edit?usp=sharing", inline=False)
+        embed.add_field(name="Whitelist Request:", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="This information", value="You can get this info by typing `/server`", inline=False)
         return await ctx.send(embed=embed)
 
     @cog_ext.cog_slash(name="modpack", description="Shows info on how to install the mods.", 

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord import utils, Colour
 from discord.ext.commands import has_permissions
+from discord_slash import cog_ext
 import asyncio
 import json
 
@@ -10,8 +11,7 @@ class Suggest(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="suggest")
-    @commands.guild_only()
+    @cog_ext.cog_slash(name="suggest", description="Suggest something. Type /suggest and answer the bots questions.")
     async def suggest(self, ctx):
         if self.bot.config["GUILDS"][str(ctx.guild.id)]["TOGGLED"] == "OFF":
             await ctx.send("Suggestions currently aren't open!")

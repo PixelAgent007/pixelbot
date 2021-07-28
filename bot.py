@@ -24,7 +24,7 @@ from discord_slash import SlashCommand
 import json
 
 # Setting activity
-activity = discord.Game(name="!help for Help")
+activity = discord.Game(name="/help for Help")
 
 # Defining Bot
 intents = discord.Intents.all()
@@ -47,8 +47,8 @@ initial_extensions = [
     "lib.cogs.help",
     "lib.cogs.suggestions",
 
-    "lib.cogs.rickrolling"
-   #"lib.cogs.leveling"
+    "lib.cogs.rickrolling",
+    "lib.cogs.leveling"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:

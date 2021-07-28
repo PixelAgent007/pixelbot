@@ -6,32 +6,32 @@ import json
 from sqlite3 import connect
 from random import randint
 
-DB_PATH = "config/db/database.db"
-cxn = connect(DB_PATH, check_same_thread=False)
-cur = cxn.cursor()
-
-def execute(command, *values):
-	cur.execute(command, tuple(values))
-
-def record(command, *values):
-	cur.execute(command, tuple(values))
-	return cur.fetchone()
-
 class LevelCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    DB_PATH = "config/db/database.db"
+    cxn = connect(DB_PATH, check_same_thread=False)
+    cur = cxn.cursor()
+
+    async def execute(self, command, *values):
+	    self.cur.execute(command, tuple(values))
+
+    async def record(self, command, *values):
+	    self.cur.execute(command, tuple(values))
+	    return self.cur.fetchone()
+
     async def update_data(self, user):
-        if not record("SELECT EXISTS (SELECT 1 FROM exp WHERE UserID=?))", user.id) == True:
-            execute("INSERT INTO exp (UserID, XP, Level) VALUES(?, 0, 1)", user.id)
+        if not await self.record("SELECT EXISTS (SELECT 1 FROM exp WHERE UserID=?))", user.id) == True:
+            await self.execute("INSERT INTO exp (UserID, XP, Level) VALUES(?, 0, 1)", user.id)
     
     async def add_experience(self, user):
-        xp = int(record("SELECT XP FROM exp WHERE UserID = ?", user.id))
-        lvl = int(record("SELECT Level FROM exp WHERE UserID = ?", user.id))
+        xp = int(await self.record("SELECT XP FROM exp WHERE UserID = ?", user.id))
+        lvl = int(await self.record("SELECT Level FROM exp WHERE UserID = ?", user.id))
         xp_to_add = randint(10, 20)
         new_lvl = int(((xp+xp_to_add)//42) ** 0.55)
 
-        execute("UPDATE exp SET XP = XP + ?, Level = ? WHERE UserID = ?", xp_to_add, new_lvl, user.id)
+        await self.execute("UPDATE exp SET XP = XP + ?, Level = ? WHERE UserID = ?", xp_to_add, new_lvl, user.id)
         if new_lvl > lvl:
             embed = Embed(title="Level Up!", color=Colour(0x71368a), description=f"{user.mention} reached Level {new_lvl:,}, GG!")
             await self.channel.send(embed=embed)
