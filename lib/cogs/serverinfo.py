@@ -1,12 +1,13 @@
 from discord import Colour, Embed
 from discord.ext import commands
 from discord_slash import cog_ext
+from discord_slash.utils.manage_commands import create_option, create_choice
 
-class DarkmoonCog(commands.Cog):
+class InfoCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name='debug')
+    @cog_ext.cog_slash(name="debug")
     async def debug_steps(self, ctx):
         embed = Embed(
             title="Debugging Steps for the Modpack",
@@ -19,22 +20,35 @@ class DarkmoonCog(commands.Cog):
         embed.add_field(name="This information", value="You can get this info by typing `!debug`", inline=False)
         return await ctx.send(embed=embed)
 
-    @commands.command(name='beta')
-    async def join_beta(self, ctx):
-        embed = Embed(
-            title="Public Beta",
-            colour=Colour(0x71368a),
-            description="**IP**: `play.minecraft-newlife.de`"
-        )
-        embed.add_field(name="**# Manual Installation**:", value="""Downloading and installing into the Minecraft 
+    @cog_ext.cog_slash(name="modpack", description="Shows info on how to install the mods.", 
+        options=[
+            create_option(
+                name="type",
+                description="Technic | MultiMC | Manual",
+                option_type=3,
+                required=True
+             )
+             ])
+    async def modpack_info(self, ctx, type: str):
+        mmcEmbed = Embed(title="Modpack Installation using MultiMC", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
+        mmcEmbed.add_field(name="**# Installation using MMC**", value="""
+        *Note: This* ***requires*** *at least MultiMC 5 Version 0.6.12. If your MMC is older, update using the update button or reinstall.*
+
+        To install the Modpack into MMC, open up MMC and click *Add instance*, Head over to the technic section and 
+        search up DarkMoonSMP. Choose either the Sodium or Optifine Version, press Ok and wait for it to download, 
+        """, inline=False)
+
+        manualEmbed = Embed(title="Manual Installation of the Modpack", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
+        manualEmbed.add_field(name="**# Manual Installation**:", value="""Downloading and installing into the Minecraft 
         Launcher. If you don't know how to install fabric modpacks, maybe try the Technic Method instead. 
 
         Download Optifine Edition *(Worse Performance, but there are Shaders and Zoom)*:
-        https://play.minecraft-newlife.de/index.php/s/nbG3CgEScKSktJE
+        http://play.minecraft-newlife.de/darkmoonsmp/Dark%20Moon%20SMP%20Modpack%20(Optifine).zip
         Download Sodium Edition *(Better FPS / Performance)*:
-        https://play.minecraft-newlife.de/index.php/s/c5aNB5KjLdBbmzb
+        http://play.minecraft-newlife.de/darkmoonsmp/Dark%20Moon%20SMP%20Modpack%20(Sodium).zip
         """, inline=False)
-        embed.add_field(name="**# Installation using Technic Launcher**", value="""
+        technicEmbed = Embed(title="Modpack Installation using Technic Launcher", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
+        technicEmbed.add_field(name="**# Installation using Technic Launcher**", value="""
         If you don't want to install the modpack manually, you can install it using the Technic Launcher. 
 
         Head over to https://www.technicpack.net/download to download it. Even though it says something about installing, 
@@ -44,19 +58,23 @@ class DarkmoonCog(commands.Cog):
         Then, log in with your Mojang / Microsoft account. Head over to the Modpack Section, and search for *DarkMoonSMP*. 
         Choose either the Optifine or Sodium Version, and click Install.
         """, inline=False)
-        embed.add_field(name="**# Installation using MMC**", value="""
-        *Note: This* ***requires*** *at least MultiMC 5 Version 0.6.12. If your MMC is older, update using the update button or reinstall.*
+        manualEmbed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
+        mmcEmbed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
+        technicEmbed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
 
-        To install the Modpack into MMC, open up MMC and click *Add instance*, Head over to the technic section and 
-        search up DarkMoonSMP. Choose either the Sodium or Optifine Version, press Ok and wait for it to download, 
-        """, inline=False)
-        embed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
+        if type.lower == "mmc" or "multimc":
+            embed = mmcEmbed
+        elif type.lower == "technic" or "techniclauncher":
+            embed = technicEmbed
+        elif type.lower == "manual" or "fabric":
+            embed = manualEmbed
+
         return await ctx.send(embed=embed)
 
-    @commands.command(name='rules')
+    @cog_ext.cog_slash(name="ignrules", description="Shows Rules for the minecraft server.")
     async def send_rules(self, ctx):
         embed = Embed(
-            title="Public Beta Rules",
+            title="Ingame Rules",
             colour=Colour(0x71368a),
             description=""
         )
@@ -69,20 +87,5 @@ class DarkmoonCog(commands.Cog):
         embed.add_field(name="Rule 7:", value="If someone is X-Raying or hacking, they get banned for 7 days. If they keep hacking then they get banned for a month, then a year, and if they still keep hacking they get perma-banned.", inline=False)
         return await ctx.send(embed=embed)
 
-    @commands.command(name='claiming')
-    async def claiming_help(self, ctx):
-        embed = Embed(
-            title="Claiming Land",
-            colour=Colour(0x71368a),
-            description="Claiming is done server-side using the Fabric-LanD Mod. You need a *golden hoe* to claim land. Every player has 500 blocks available to claim."
-        )
-        embed.add_field(name="Claim Land: ", value="Right-Click with a golden hoe, **OR** `/flan addClaim <x> <y> <z>`", inline=False)
-        embed.add_field(name="Open up the claiming menu: ", value="`/flan claim`", inline=False)
-        embed.add_field(name="Delete a claim: ", value="`/flan delete`", inline=False)
-        embed.add_field(name="Delete all claims: ", value="`/flan deleteAll`", inline=False)
-        embed.add_field(name="Trust a player: ", value="you can find it inside of the Menu", inline=False)
-        return await ctx.send(embed=embed)
-
-
 def setup(bot):
-    bot.add_cog(DarkmoonCog(bot))
+    bot.add_cog(InfoCog(bot))

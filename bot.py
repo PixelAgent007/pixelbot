@@ -43,10 +43,11 @@ bot.command_prefix = prefix
 
 # Loading extensions
 initial_extensions = [
-    "lib.cogs.darkmoonsmp",
-    "lib.cogs.rickrolling",
+    "lib.cogs.serverinfo",
     "lib.cogs.help",
     "lib.cogs.suggestions",
+
+    "lib.cogs.rickrolling"
    #"lib.cogs.leveling"
 ]
 if __name__ == '__main__':
@@ -67,7 +68,7 @@ async def on_member_join(member):
         embed = Embed(title=f"Welcome, {name}!", colour=Colour(0x71368a), description="""
         Welcome to the Dark Moon SMP!
         
-        Please read the `#rules` and if you want to join the official server, check `#how-to-join`. Have a great time!
+        Please read the `#rules` and if you want to join the official server, check `#server` on how to join. Have a great time!
         """)
         await member.send(embed=embed)
 
