@@ -83,17 +83,17 @@ class InfoCog(commands.Cog):
         mmcEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
         technicEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
 
-        if type.lower == "mmc" or "multimc":
-            print(type.lower)
+        if type.lower() == "mmc":
+            print(type.lower())
             await ctx.send(embed=mmcEmbed)
-        else:
-            if type.lower == "technic" or "techniclauncher":
-                print(type.lower)
-                await ctx.send(embed=technicEmbed)
-            else:
-                if type.lower == "manual" or "fabric":
-                    print(type.lower)
-                    await ctx.send(embed=manualEmbed)
+        elif type.lower() == "technic":
+            print(type.lower())
+            await ctx.send(embed=technicEmbed)
+        elif type.lower() == "manual":
+            print(type.lower())
+            await ctx.send(embed=manualEmbed)       
+
+        return True
 
     @cog_ext.cog_slash(name="ignrules", description="Shows Rules for the minecraft server.")
     async def send_rules(self, ctx):
