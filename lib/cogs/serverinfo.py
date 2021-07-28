@@ -12,10 +12,11 @@ class InfoCog(commands.Cog):
 
     @cog_ext.cog_slash(name="debug", description="Shows help on how to debug the modpack.")
     async def debug_steps(self, ctx):
+        debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=852809555703365672)
         embed = Embed(
             title="Debugging Steps for the Modpack",
             colour=Colour(0x71368a),
-            description="If the modpack crashes / doesn't start, please describe your problem using the following debug steps and post them in `#modpack-support`."
+            description=f"If the modpack crashes / doesn't start, please describe your problem using the following debug steps and post them in {debugChannel.mention}."
         )
         embed.add_field(name="Step 1", value="Describe the problem.", inline=False)
         embed.add_field(name="Step 2", value="Take screenshots and/or get logs.", inline=False)
@@ -25,16 +26,17 @@ class InfoCog(commands.Cog):
 
     @cog_ext.cog_slash(name="server", description="Shows important information like IP, Server version etc.")
     async def serverinfo(self, ctx):
-        channel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
+        whitelistChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
+        serverChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
         embed = Embed(
-            title="Debugging Steps for the Modpack",
+            title="Server Info",
             colour=Colour(0x71368a),
-            description="If the modpack crashes / doesn't start, please describe your problem using the following debug steps and post them in `#modpack-support`."
+            description=f"Check {serverChannel.mention} on how to install the modpack"
         )
         embed.add_field(name="IP:", value="darkmoonsmp.duckdns.org:25635", inline=False)
         embed.add_field(name="Version:", value="1.16.5 - Fabric", inline=False)
         embed.add_field(name="Implemented Datapacks:", value="https://docs.google.com/document/d/1OhRB2pyAqVy8mNCKSw0AZkHZu6eRu0BUYEYrFr3OoHw/edit?usp=sharing", inline=False)
-        embed.add_field(name="Whitelist Request:", value=f"{channel.mention}", inline=False)
+        embed.add_field(name="Whitelist Request:", value=f"{whitelistChannel.mention}", inline=False)
         embed.add_field(name="This information", value="You can get this info by typing `/server`", inline=False)
         return await ctx.send(embed=embed)
 
@@ -48,6 +50,7 @@ class InfoCog(commands.Cog):
              )
              ])
     async def modpack_info(self, ctx, type: str):
+        debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=852809555703365672)
         mmcEmbed = Embed(title="Modpack Installation using MultiMC", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
         mmcEmbed.add_field(name="**# Installation using MMC**", value="""
         *Note: This* ***requires*** *at least MultiMC 5 Version 0.6.12. If your MMC is older, update using the update button or reinstall.*
@@ -76,9 +79,9 @@ class InfoCog(commands.Cog):
         Then, log in with your Mojang / Microsoft account. Head over to the Modpack Section, and search for *DarkMoonSMP*. 
         Choose either the Optifine or Sodium Version, and click Install.
         """, inline=False)
-        manualEmbed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
-        mmcEmbed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
-        technicEmbed.add_field(name="Help", value="If you need help installing the modpack, feel free to ask in `#modpack-support`", inline=False)
+        manualEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
+        mmcEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
+        technicEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
 
         if type.lower == "mmc" or "multimc":
             embed = mmcEmbed
