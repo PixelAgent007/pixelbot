@@ -85,9 +85,11 @@ class InfoCog(commands.Cog):
 
         if type.lower == "mmc" or "multimc":
             embed = mmcEmbed
-        elif type.lower == "technic" or "techniclauncher":
+        
+        if type.lower == "technic" or "techniclauncher":
             embed = technicEmbed
-        elif type.lower == "manual" or "fabric":
+    
+        if type.lower == "manual" or "fabric":
             embed = manualEmbed
 
         return await ctx.send(embed=embed)
