@@ -31,9 +31,7 @@ class LevelCog(commands.Cog):
         self.c.execute(f"SELECT Level FROM exp WHERE UserID = {user.id}")
         tuplvl = self.c.fetchone()
         lvl = tuplvl[0]
-        xp_to_add = randint(1, 3)
-        new_lvl = int((xp+xp_to_add) // 4)
-
+        new_lvl = int((xp+1) // 15)
         lvl5 = user.guild.get_role(870222636314144789)
         lvl10 = user.guild.get_role(864582399957794866)
         lvl15 = user.guild.get_role(870222736365088808)
@@ -43,7 +41,7 @@ class LevelCog(commands.Cog):
         lvl75 = user.guild.get_role(870223219804749844)
         lvl100 = user.guild.get_role(849948038852247562)
 
-        self.c.execute(f"UPDATE exp SET XP = XP + {xp_to_add}, Level = {new_lvl} WHERE UserID = {user.id}")
+        self.c.execute(f"UPDATE exp SET XP = XP + 1, Level = {new_lvl} WHERE UserID = {user.id}")
         if new_lvl > lvl:
             embed = Embed(title="Level Up!", color=Colour(0x71368a), description=f"{user.mention} reached Level {new_lvl:,}, GG!")
             await self.channel.send(embed=embed)
@@ -107,7 +105,7 @@ class LevelCog(commands.Cog):
 	            'level' : lvl,
 	            'current_xp' : xp,
 	            'user_xp' : xp,
-	            'next_xp' : int(lvl ** 4),
+	            'next_xp' : int(lvl ** 15),
 	            'user_position' : 1,
 	            'user_name' : f'{ctx.author.name}',
 	            'user_status' : 'online',
@@ -120,7 +118,23 @@ class LevelCog(commands.Cog):
             self.c.execute(f"SELECT Level FROM exp WHERE UserID = {member.id}")
             tuplvl = self.c.fetchone()
             lvl = tuplvl[0]
-            await ctx.send(f"{ctx.author.mention}, {member.name}'s level is: {lvl}")
+            self.c.execute(f"SELECT XP FROM exp WHERE UserID = {member.id}")
+            tupxp = self.c.fetchone()
+            xp = tupxp[0]
+            args = {
+	            'bg_image' : 'https://www.technistone.com/color-range/image-slab/Starlight%20Black_SLAB_web.jpg',
+	            'profile_image' : f'{member.avatar_url}',
+	            'level' : lvl,
+	            'current_xp' : xp,
+	            'user_xp' : xp,
+	            'next_xp' : int(lvl ** 15),
+	            'user_position' : 1,
+	            'user_name' : f'{member.name}',
+	            'user_status' : 'online',
+            }
+            rankcard = Generator().generate_profile(**args)
+            file = discord.File(fp=rankcard, filename='rankcard.png')
+            await ctx.send(file=file)
 
 def setup(bot):
     bot.add_cog(LevelCog(bot))
