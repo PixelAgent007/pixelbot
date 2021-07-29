@@ -89,7 +89,7 @@ class LevelCog(commands.Cog):
             if not member.bot:
                 await self.update_data(member)
 
-    @cog_ext.cog_slash(name="rank", description="Shows your level. If another member is specified as the first arg, his is shown", options=[create_option(name="member", description="Specify the member whose rank you want to know.", option_type=6, required=False)])
+    @cog_ext.cog_slash(name="rank", description="Shows your level. If another member is specified as the first arg, his is shown", options=[create_option(name="member", description="Specify the member whose rank you want to know.", option_type=6, required=False)], guild_ids=[849223970598420480])
     async def show_rank(self, ctx, member: discord.Member = None):
         if not member:
             await self.update_data(ctx.author)
