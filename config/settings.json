@@ -1,7 +1,10 @@
 {
   "GLOBAL": {
     "PREFIX": "!",
-    "TOKEN": "ODQ4ODE2OTE1NTc3MDQ1MDAy.YLSIWg.P8tG8F3hbAzfbNQLCk0mn0OdY9I"
+    "TOKEN": "ODY5OTkzMjQ3Mzc0NzA0Njky.YQGSWQ.xbcenwL2j7guluJ8Q6G4YWLMJFE"
+  },
+  "DB": {
+    "POSTGRE_CREDENTIALS": "dbname='pixelbot' user='pixelbot' host='newlifesmp.duckdns.org' password=''"
   },
   "GUILDS": {
     "849223970598420480": {

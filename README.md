@@ -15,4 +15,4 @@ See **LICENSE** for the full license or the header of **bot.py** for a shorter v
 (or `python3 -m pip install -r requirements.txt`, depends on your setup)
 
 + ffmpeg
-+ sqlite3 => 3.36.0
++ A PostgreSQL server

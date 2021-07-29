@@ -27,7 +27,7 @@ class InfoCog(commands.Cog):
     @cog_ext.cog_slash(name="server", description="Shows important information like IP, Server version etc.")
     async def serverinfo(self, ctx):
         whitelistChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
-        serverChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
+        serverChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869629677579423775)
         embed = Embed(
             title="Server Info",
             colour=Colour(0x71368a),
