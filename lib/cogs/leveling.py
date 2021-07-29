@@ -31,7 +31,7 @@ class LevelCog(commands.Cog):
         self.c.execute(f"SELECT Level FROM exp WHERE UserID = {user.id}")
         tuplvl = self.c.fetchone()
         lvl = tuplvl[0]
-        new_lvl = int((xp+1) // 15)
+        new_lvl = int((xp+1) // 5)
         lvl5 = user.guild.get_role(870222636314144789)
         lvl10 = user.guild.get_role(864582399957794866)
         lvl15 = user.guild.get_role(870222736365088808)
@@ -88,6 +88,7 @@ class LevelCog(commands.Cog):
         for member in self.guild.members:
             if not member.bot:
                 await self.update_data(member)
+                #await self.add_experience(member)
 
     @cog_ext.cog_slash(name="rank", description="Shows your level. If another member is specified as the first arg, his is shown", options=[create_option(name="member", description="Specify the member whose rank you want to know.", option_type=6, required=False)], guild_ids=[849223970598420480])
     async def show_rank(self, ctx, member: discord.Member = None):
@@ -99,14 +100,19 @@ class LevelCog(commands.Cog):
             self.c.execute(f"SELECT XP FROM exp WHERE UserID = {ctx.author.id}")
             tupxp = self.c.fetchone()
             xp = tupxp[0]
+            self.c.execute("SELECT UserID FROM exp ORDER BY XP DESC")
+            members = self.c.fetchall()
+            userid = tuple([ctx.author.id])
+            index = members.index(userid)
+            rank = int(index + 1)
             args = {
 	            'bg_image' : 'https://www.technistone.com/color-range/image-slab/Starlight%20Black_SLAB_web.jpg',
 	            'profile_image' : f'{ctx.author.avatar_url}',
 	            'level' : lvl,
 	            'current_xp' : xp,
 	            'user_xp' : xp,
-	            'next_xp' : int(lvl ** 4),
-	            'user_position' : 1,
+	            'next_xp' : int(lvl ** 5),
+	            'user_position' : rank,
 	            'user_name' : f'{ctx.author.name}',
 	            'user_status' : 'online',
             }
@@ -121,14 +127,20 @@ class LevelCog(commands.Cog):
             self.c.execute(f"SELECT XP FROM exp WHERE UserID = {member.id}")
             tupxp = self.c.fetchone()
             xp = tupxp[0]
+            self.c.execute("SELECT UserID FROM exp ORDER BY XP DESC")
+            members = self.c.fetchall()
+            userid = tuple([ctx.author.id])
+            index = members.index(userid)
+            rank = int(index + 1)
+            print(rank)
             args = {
 	            'bg_image' : 'https://www.technistone.com/color-range/image-slab/Starlight%20Black_SLAB_web.jpg',
 	            'profile_image' : f'{member.avatar_url}',
 	            'level' : lvl,
 	            'current_xp' : xp,
 	            'user_xp' : xp,
-	            'next_xp' : int(lvl ** 15),
-	            'user_position' : 1,
+	            'next_xp' : int(lvl ** 5),
+	            'user_position' : rank,
 	            'user_name' : f'{member.name}',
 	            'user_status' : 'online',
             }
