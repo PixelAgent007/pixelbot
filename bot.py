@@ -29,7 +29,6 @@ activity = discord.Game(name="/help for Help")
 # Defining Bot
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix="", activity=activity, status=discord.Status.online, intents=intents, owner_id=487247155741065229)
-#bot = commands.Bot(command_prefix="", activity=activity, status=discord.Status.online, owner_id=487247155741065229)
 bot.remove_command("help")
 slash = SlashCommand(bot, sync_commands=True, sync_on_cog_reload=True)
 
@@ -39,7 +38,6 @@ with open('config/settings.json', 'r') as f:
 
 # Getting vars from config
 token = bot.config["GLOBAL"]["TOKEN"]
-devtoken = bot.config["GLOBAL"]["DEVTOKEN"]
 prefix = bot.config["GLOBAL"]["PREFIX"]
 bot.command_prefix = prefix
 
