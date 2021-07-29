@@ -105,7 +105,7 @@ class LevelCog(commands.Cog):
 	            'level' : lvl,
 	            'current_xp' : xp,
 	            'user_xp' : xp,
-	            'next_xp' : int(lvl ** 15),
+	            'next_xp' : int(lvl ** 4),
 	            'user_position' : 1,
 	            'user_name' : f'{ctx.author.name}',
 	            'user_status' : 'online',
