@@ -11,7 +11,7 @@ class Suggest(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name="suggest", description="Suggest something. Type /suggest and answer the bots questions.")
+    @cog_ext.cog_slash(name="suggest", description="Suggest something. Type /suggest and answer the bots questions.", guild_ids=[849223970598420480])
     async def suggest(self, ctx):
         if self.bot.config["GUILDS"][str(ctx.guild.id)]["TOGGLED"] == "OFF":
             await ctx.send("Suggestions currently aren't open!")

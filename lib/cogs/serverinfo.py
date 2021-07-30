@@ -10,7 +10,7 @@ class InfoCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name="debug", description="Shows help on how to debug the modpack.")
+    @cog_ext.cog_slash(name="debug", description="Shows help on how to debug the modpack.", guild_ids=[849223970598420480])
     async def debug_steps(self, ctx):
         debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=852809555703365672)
         embed = Embed(
@@ -24,7 +24,7 @@ class InfoCog(commands.Cog):
         embed.add_field(name="This information", value="You can get this info by typing `/debug`", inline=False)
         return await ctx.send(embed=embed)
 
-    @cog_ext.cog_slash(name="server", description="Shows important information like IP, Server version etc.")
+    @cog_ext.cog_slash(name="server", description="Shows important information like IP, Server version etc.", guild_ids=[849223970598420480])
     async def serverinfo(self, ctx):
         whitelistChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
         serverChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869629677579423775)
@@ -48,7 +48,7 @@ class InfoCog(commands.Cog):
                 option_type=3,
                 required=True
              )
-             ])
+             ], guild_ids=[849223970598420480])
     async def modpack_info(self, ctx, type: str):
         debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=852809555703365672)
         mmcEmbed = Embed(title="Modpack Installation using MultiMC", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")

@@ -9,7 +9,7 @@ class HelpCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name="help", description="Shows help for all commands..")
+    @cog_ext.cog_slash(name="help", description="Shows help for all commands..", guild_ids=[849223970598420480])
     async def help(self,ctx):
         cur_page = 1
         pages = 6

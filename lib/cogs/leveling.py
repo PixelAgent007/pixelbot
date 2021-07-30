@@ -31,7 +31,7 @@ class LevelCog(commands.Cog):
         self.c.execute(f"SELECT Level FROM exp WHERE UserID = {user.id}")
         tuplvl = self.c.fetchone()
         lvl = tuplvl[0]
-        new_lvl = int((xp+1) // 5)
+        new_lvl = int((xp+1) // 15)
         lvl5 = user.guild.get_role(870222636314144789)
         lvl10 = user.guild.get_role(864582399957794866)
         lvl15 = user.guild.get_role(870222736365088808)
@@ -90,7 +90,16 @@ class LevelCog(commands.Cog):
                 await self.update_data(member)
                 #await self.add_experience(member)
 
-    @cog_ext.cog_slash(name="rank", description="Shows your level. If another member is specified as the first arg, his is shown", options=[create_option(name="member", description="Specify the member whose rank you want to know.", option_type=6, required=False)], guild_ids=[849223970598420480])
+    @cog_ext.cog_slash(name="rank", description="Shows your level. If another member is specified as the first arg, his is shown", 
+    options=[
+        create_option(
+            name="member", 
+            description="Specify the member whose rank you want to know.", 
+            option_type=6, 
+            required=False
+            )
+        ], 
+    guild_ids=[849223970598420480])
     async def show_rank(self, ctx, member: discord.Member = None):
         if not member:
             await self.update_data(ctx.author)
@@ -111,7 +120,7 @@ class LevelCog(commands.Cog):
 	            'level' : lvl,
 	            'current_xp' : xp,
 	            'user_xp' : xp,
-	            'next_xp' : int(lvl ** 5),
+	            'next_xp' : int(lvl * 15),
 	            'user_position' : rank,
 	            'user_name' : f'{ctx.author.name}',
 	            'user_status' : 'online',
@@ -139,7 +148,7 @@ class LevelCog(commands.Cog):
 	            'level' : lvl,
 	            'current_xp' : xp,
 	            'user_xp' : xp,
-	            'next_xp' : int(lvl ** 5),
+	            'next_xp' : int(lvl * 15),
 	            'user_position' : rank,
 	            'user_name' : f'{member.name}',
 	            'user_status' : 'online',
