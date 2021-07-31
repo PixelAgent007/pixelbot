@@ -8,25 +8,7 @@ from discord_slash.utils.manage_commands import create_option
 from discord_slash.utils.manage_commands import create_permission
 from discord_slash.model import SlashCommandPermissionType
 import re
-
-time_regex = re.compile("(?:(\d{1,5})(h|s|m|d))+?")
-time_dict = {"h": 3600, "s": 1, "m": 60, "d": 86400}
-
-class TimeConverter(commands.Converter):
-    async def convert(self, ctx, argument):
-        args = argument.lower()
-        matches = re.findall(time_regex, args)
-        time = 0
-        for key, value in matches:
-            try:
-                time += time_dict[value] * float(key)
-            except KeyError:
-                raise commands.BadArgument(
-                    f"{value} is an invalid time key! h|m|s|d are valid arguments"
-                )
-            except ValueError:
-                raise commands.BadArgument(f"{key} is not a number!")
-        return round(time)
+from datetime import datetime, timedelta
 
 class ModerationCog(commands.Cog):
     def __init__(self, bot):
@@ -35,6 +17,11 @@ class ModerationCog(commands.Cog):
     conn = connect("config/db/database.db", check_same_thread=False)
     c = conn.cursor()
 
+    def convertTime(self, time):
+        time_dict = {"h": 3600, "s": 1, "m": 60, "d": 86400, "w": 604800}
+        secs = int(time[:-1]) * time_dict[time[-1]]
+        endtime = datetime.utcnow() + timedelta(seconds=secs)
+        return endtime.strftime("%Y-%m-%d %H:%M:%S")
 
     @cog_ext.cog_slash(name="mute",
             description="Mute a member.",
@@ -58,42 +45,34 @@ class ModerationCog(commands.Cog):
                 )
             ]
     )
-    async def mute(self, ctx, member: discord.Member, time: TimeConverter=None):
+    async def mute(self, ctx, member: discord.Member, time=None):
         muted_role = discord.utils.get(ctx.guild.roles, id=864582175470649344)
-
         if not time:
             await member.add_roles(muted_role)
             notimeEmbed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted successfully.**", color=discord.Color.green())
             await ctx.send(embed=notimeEmbed)
         else:
-            minutes, seconds = divmod(time, 60)
-            hours, minutes = divmod(minutes, 60)
-            if int(hours):
-                await member.add_roles(muted_role)
-                hrEmbed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted for {hours} hours, {minutes} minutes and {seconds} seconds.**", color=discord.Color.green())
-                await ctx.send(embed=hrEmbed)
-            elif int(minutes):
-                await member.add_roles(muted_role)
-                minEmbed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted for {minutes} minutes and {seconds} seconds.**", color=discord.Color.green())
-                await ctx.send(embed=minEmbed)
-            elif int(seconds):
-                await member.add_roles(muted_role)
-                secEmbed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted for {seconds} seconds.**", color=discord.Color.green())
-                await ctx.send(embed=secEmbed)
-        if time and time < 300:
+            endtime = self.convertTime(time)
+            self.c.execute(f"INSERT INTO Mutes (UserID, EndTime) VALUES({member.id}, {endtime})")
             await member.add_roles(muted_role)
-            await asyncio.sleep(time)
-
-            if muted_role in member.roles:
-                await member.remove_roles(muted_role)
-                embed = discord.Embed(description=f"**{member.display_name}#{member.discriminator} was unmuted.**", color=discord.Color.green())
-                await ctx.send(embed=embed)
-
-            self.c.execute(f"SELECT EXISTS (SELECT 1 FROM mutes WHERE UserID={member.id})")
-            out = self.c.fetchone()
-            exists = out[0]
-            if exists == 1:
-                self.c.execute(f"DELETE FROM exp WHERE UserID={member.id}")
+            embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted until {endtime} UTC.**", color=discord.Color.green())
+            await ctx.send(embed=embed)
+        if time:
+            time_dict = {"h": 3600, "s": 1, "m": 60, "d": 86400, "w": 604800}
+            secs = int(time[:-1]) * time_dict[time[-1]]
+            if secs > 300:
+                embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted for {secs} seconds.**", color=discord.Color.green())
+                await member.add_roles(muted_role)
+                await asyncio.sleep(secs)
+                if muted_role in member.roles:
+                    await member.remove_roles(muted_role)
+                    embed = discord.Embed(description=f"**{member.display_name}#{member.discriminator} was unmuted.**", color=discord.Color.green())
+                    await ctx.send(embed=embed)
+                self.c.execute(f"SELECT EXISTS (SELECT 1 FROM mutes WHERE UserID={member.id})")
+                out = self.c.fetchone()
+                exists = out[0]
+                if exists == 1:
+                    self.c.execute(f"DELETE FROM mutes WHERE UserID={member.id}")
         self.conn.commit()
 
     @cog_ext.cog_slash(name="unmute",
