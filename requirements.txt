@@ -2,4 +2,4 @@ discord-py-slash-command
 discord
 discord.py
 youtube_dl
-disrank
+disrank-rewrite
