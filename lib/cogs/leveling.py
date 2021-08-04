@@ -20,18 +20,18 @@ class LevelCog(commands.Cog):
         self.c.execute(f"SELECT EXISTS (SELECT 1 FROM exp WHERE UserID={user.id})")
         out = self.c.fetchone()
         exists = out[0]
-        if not exists == 1:
-            self.c.execute(f"INSERT INTO exp (UserID, XP, Level) VALUES({user.id}, 0, 1)")
+        if exists == 0:
+            self.c.execute(f"INSERT INTO exp (UserID, XP, CurXP, Level) VALUES({user.id}, 0, 0, 1)")
         self.conn.commit()
     
     async def add_experience(self, user):
-        self.c.execute(f"SELECT XP FROM exp WHERE UserID = {user.id}")
+        self.c.execute(f"SELECT CurXP FROM exp WHERE UserID = {user.id}")
         tupxp = self.c.fetchone()
         xp = tupxp[0]
         self.c.execute(f"SELECT Level FROM exp WHERE UserID = {user.id}")
         tuplvl = self.c.fetchone()
         lvl = tuplvl[0]
-        new_lvl = int((xp+1) // 15)
+        newxp = int(lvl * 15)
         lvl5 = user.guild.get_role(870222636314144789)
         lvl10 = user.guild.get_role(864582399957794866)
         lvl15 = user.guild.get_role(870222736365088808)
@@ -41,31 +41,33 @@ class LevelCog(commands.Cog):
         lvl75 = user.guild.get_role(870223219804749844)
         lvl100 = user.guild.get_role(849948038852247562)
 
-        self.c.execute(f"UPDATE exp SET XP = XP + 1, Level = {new_lvl} WHERE UserID = {user.id}")
-        if new_lvl > lvl:
-            embed = Embed(title="Level Up!", color=Colour(0x71368a), description=f"{user.mention} reached Level {new_lvl:,}, GG!")
+        self.c.execute(f"UPDATE exp SET XP = XP + 1, CurXP = CurXP + 1 WHERE UserID = {user.id}")
+        if newxp == xp:
+            lvl += 1
+            self.c.execute(f"UPDATE exp SET Level = Level + 1, CurXP = 0 WHERE UserID = {user.id}")
+            embed = Embed(title="Level Up!", color=Colour(0x71368a), description=f"{user.mention} reached Level {lvl:,}, GG!")
             await self.channel.send(embed=embed)
-            if new_lvl == 5:
+            if lvl == 5:
                 await user.add_roles(lvl5)
-            elif new_lvl == 10:
+            elif lvl == 10:
                 await user.add_roles(lvl10)
                 await user.remove_roles(lvl5)
-            elif new_lvl == 15:
+            elif lvl == 15:
                 await user.add_roles(lvl15)
                 await user.remove_roles(lvl10)
-            elif new_lvl == 20:
+            elif lvl == 20:
                 await user.add_roles(lvl20)
                 await user.remove_roles(lvl15)
-            elif new_lvl == 35:
+            elif lvl == 35:
                 await user.add_roles(lvl35)
                 await user.remove_roles(lvl20)
-            elif new_lvl == 50:
+            elif lvl == 50:
                 await user.add_roles(lvl50)
                 await user.remove_roles(lvl35)
-            elif new_lvl == 75:
+            elif lvl == 75:
                 await user.add_roles(lvl75)
                 await user.remove_roles(lvl50)
-            elif new_lvl == 100:
+            elif lvl == 100:
                 await user.add_roles(lvl100)
                 await user.remove_roles(lvl75)
         self.conn.commit()
@@ -106,7 +108,7 @@ class LevelCog(commands.Cog):
             self.c.execute(f"SELECT Level FROM exp WHERE UserID = {ctx.author.id}")
             tuplvl = self.c.fetchone()
             lvl = tuplvl[0]
-            self.c.execute(f"SELECT XP FROM exp WHERE UserID = {ctx.author.id}")
+            self.c.execute(f"SELECT CurXP FROM exp WHERE UserID = {ctx.author.id}")
             tupxp = self.c.fetchone()
             xp = tupxp[0]
             self.c.execute("SELECT UserID FROM exp ORDER BY XP DESC")
@@ -133,12 +135,12 @@ class LevelCog(commands.Cog):
             self.c.execute(f"SELECT Level FROM exp WHERE UserID = {member.id}")
             tuplvl = self.c.fetchone()
             lvl = tuplvl[0]
-            self.c.execute(f"SELECT XP FROM exp WHERE UserID = {member.id}")
+            self.c.execute(f"SELECT CurXP FROM exp WHERE UserID = {member.id}")
             tupxp = self.c.fetchone()
             xp = tupxp[0]
             self.c.execute("SELECT UserID FROM exp ORDER BY XP DESC")
             members = self.c.fetchall()
-            userid = tuple([ctx.author.id])
+            userid = tuple([member.id])
             index = members.index(userid)
             rank = int(index + 1)
             print(rank)

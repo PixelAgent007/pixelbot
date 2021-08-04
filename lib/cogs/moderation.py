@@ -1,5 +1,5 @@
 from discord import Colour, Embed
-from discord.ext import commands
+from discord.ext import commands, tasks
 import discord
 import asyncio
 from sqlite3 import connect
@@ -23,28 +23,9 @@ class ModerationCog(commands.Cog):
         endtime = datetime.utcnow() + timedelta(seconds=secs)
         return endtime.strftime("%Y-%m-%d %H:%M:%S")
 
-    @cog_ext.cog_slash(name="mute",
-            description="Mute a member.",
-            permissions={
-                849223970598420480: [
-                    create_permission(849956089989955584, SlashCommandPermissionType.ROLE, True)
-                ]
-            },
-            options=[
-                create_option(
-                    name="member",
-                    description="Specify the member to mute.",
-                    option_type=6,
-                    required=True
-                ),
-                create_option(
-                    name="time",
-                    description="Specify the time how long to mute the member.",
-                    option_type=3,
-                    required=False
-                )
-            ]
-    )
+
+    @commands.command(name="mute")
+    @commands.has_role(870219761475276800)
     async def mute(self, ctx, member: discord.Member, time=None):
         muted_role = discord.utils.get(ctx.guild.roles, id=864582175470649344)
         if not time:
@@ -66,42 +47,76 @@ class ModerationCog(commands.Cog):
                 await asyncio.sleep(secs)
                 if muted_role in member.roles:
                     await member.remove_roles(muted_role)
-                    embed = discord.Embed(description=f"**{member.display_name}#{member.discriminator} was unmuted.**", color=discord.Color.green())
+                    embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was unmuted.**", color=discord.Color.green())
                     await ctx.send(embed=embed)
-                self.c.execute(f"SELECT EXISTS (SELECT 1 FROM mutes WHERE UserID={member.id})")
+                self.c.execute(f"SELECT EXISTS (SELECT 1 FROM Mutes WHERE UserID={member.id})")
                 out = self.c.fetchone()
                 exists = out[0]
                 if exists == 1:
-                    self.c.execute(f"DELETE FROM mutes WHERE UserID={member.id}")
+                    self.c.execute(f"DELETE FROM Mutes WHERE UserID={member.id}")
         self.conn.commit()
 
-    @cog_ext.cog_slash(name="unmute",
-            description="Unmute a member.",
-            permissions={
-                849223970598420480: [
-                    create_permission(849956089989955584, SlashCommandPermissionType.ROLE, True)
-                ]
-            },
-            options=[
-                create_option(
-                    name="member",
-                    description="Specify the member to mute.",
-                    option_type=6,
-                    required=True
-                )
-            ]
-    )
+
+    @tasks.loop(seconds=1.0)
+    async def auto_unmute(self):
+        for guild in self.bot.guilds:
+            for member in guild.members:
+                self.c.execute(f"SELECT EXISTS (SELECT 1 FROM Mutes WHERE UserID={member.id})")
+                out = self.c.fetchone()
+                exists = out[0]
+                if exists == 1:
+                    self.c.execute(f"SELECT EndTime FROM Mutes WHERE UserID={member.id}")
+                    endtime = self.c.fetchone()
+                    if datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S") == endtime[0]:
+                        self.c.execute(f"DELETE FROM Mutes WHERE UserID={member.id}")
+                 
+
+    @commands.command(name="unmute")
+    @commands.has_role(870219761475276800)
     async def unmute(self, ctx, member: discord.Member):
         muted_role = discord.utils.get(ctx.guild.roles, id=864582175470649344)
         if muted_role in member.roles:
             await member.remove_roles(muted_role)
-            embed = discord.Embed(description=f"**{member.display_name}#{member.discriminator} was unmuted.**", color=discord.Color.green())
+            embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was unmuted.**", color=discord.Color.green())
             await ctx.send(embed=embed)
-        self.c.execute(f"SELECT EXISTS (SELECT 1 FROM mutes WHERE UserID={member.id})")
+        self.c.execute(f"SELECT EXISTS (SELECT 1 FROM Mutes WHERE UserID={member.id})")
         out = self.c.fetchone()
         exists = out[0]
         if exists == 1:
-            self.c.execute(f"DELETE FROM exp WHERE UserID={member.id}")
+            self.c.execute(f"DELETE FROM Mutes WHERE UserID={member.id}")
+
+
+    @commands.command(name="kick")
+    @commands.has_role(849949389178535947)
+    async def kick(self, ctx, member: discord.Member, *, reason=None):
+        await ctx.guild.kick(user=member, reason=reason)
+        embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was kicked.**", color=discord.Color.green())
+        await ctx.send(embed=embed)
+
+        
+    @commands.command(name="ban")
+    @commands.has_role(849949389178535947)
+    async def ban(self, ctx, member: discord.Member, *, reason=None):
+        await ctx.guild.ban(user=member, reason=reason)
+        embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was banned.**", color=discord.Color.green())
+        await ctx.send(embed=embed)
+
+
+    @commands.command(name="unban")
+    @commands.has_role(849949389178535947)
+    async def unban(self, ctx, member, *, reason=None):
+        member = await self.bot.fetch_user(int(member))
+        await ctx.guild.unban(member, reason=reason)
+        embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was unbanned.**", color=discord.Color.green())
+        await ctx.send(embed=embed)
+
+
+    @commands.command(name="purge")
+    @commands.has_role(849949389178535947)
+    async def purge(self, ctx, amount=10):
+        await ctx.channel.purge(limit=amount)
+        embed = discord.Embed(description=f"✅ **{amount} messages were deleted.**", color=discord.Color.green())
+        await ctx.send(embed=embed, delete_after=15)
 
 def setup(bot):
     bot.add_cog(ModerationCog(bot))
