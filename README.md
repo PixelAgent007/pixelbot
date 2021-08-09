@@ -1,4 +1,19 @@
 # Pixel Bot by PixelAgent007
+
+<div align="center"><p>
+    <a href="https://github.com/PixelAgent007/pixelbot/releases/latest">
+      <img alt="Latest release" src="https://img.shields.io/github/v/release/PixelAgent007/pixelbot" />
+    </a>
+    <a href="https://github.com/PixelAgent007/pixelbot/pulse">
+      <img alt="Last commit" src="https://img.shields.io/github/last-commit/PixelAgent007/pixelbot" />
+    </a>
+    <a href="https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/PixelAgent007/pixelbot?style=flat-square&logo=GNU&label=License" alt="License"
+    />
+</p>	
+
+</div>
+
 A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en/stable/) for QOL and Moderation purposes.
 Also has some fun features, and is mainly built for the Dark Moon SMP.
 
