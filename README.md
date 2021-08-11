@@ -1,9 +1,6 @@
 # Pixel Bot by PixelAgent007
 
 <div align="center"><p>
-    <a href="https://github.com/PixelAgent007/pixelbot/releases/latest">
-      <img alt="Latest release" src="https://img.shields.io/github/v/release/PixelAgent007/pixelbot" />
-    </a>
     <a href="https://github.com/PixelAgent007/pixelbot/pulse">
       <img alt="Last commit" src="https://img.shields.io/github/last-commit/PixelAgent007/pixelbot" />
     </a>
