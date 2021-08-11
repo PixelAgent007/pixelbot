@@ -10,11 +10,11 @@
 </div>
 
 A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en/stable/) for QOL and Moderation purposes.
-Also has some fun features, and is mainly built for the Dark Moon SMP.
+Also has some fun features, and is mainly built for the [Dark Moon SMP](https://discord.gg/eHAhkk2A5C).
 
 ## License
 This Project is licensed under the GNU General Public License v3.0.
-See **LICENSE** for the full license or the header of **bot.py** for a shorter version.
+See [LICENSE](https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE) for the full license or the header of [bot.py](https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE) for a shorter version.
 
 ## Requirements
 + Python => 3.7.3
