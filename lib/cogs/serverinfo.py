@@ -12,7 +12,7 @@ class InfoCog(commands.Cog):
 
     @cog_ext.cog_slash(name="debug", description="Shows help on how to debug the modpack.", guild_ids=[849223970598420480])
     async def debug_steps(self, ctx):
-        debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=852809555703365672)
+        debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=874658817282048071)
         embed = Embed(
             title="Debugging Steps for the Modpack",
             colour=Colour(0x71368a),
@@ -26,7 +26,6 @@ class InfoCog(commands.Cog):
 
     @cog_ext.cog_slash(name="server", description="Shows important information like IP, Server version etc.", guild_ids=[849223970598420480])
     async def serverinfo(self, ctx):
-        whitelistChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869515838296829993)
         serverChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=869629677579423775)
         embed = Embed(
             title="Server Info",
@@ -36,7 +35,6 @@ class InfoCog(commands.Cog):
         embed.add_field(name="IP:", value="darkmoonsmp.duckdns.org:25635", inline=False)
         embed.add_field(name="Version:", value="1.17.1 - Fabric", inline=False)
         embed.add_field(name="Implemented Datapacks:", value="https://docs.google.com/document/d/1OhRB2pyAqVy8mNCKSw0AZkHZu6eRu0BUYEYrFr3OoHw/edit?usp=sharing", inline=False)
-        embed.add_field(name="Whitelist Request:", value=f"{whitelistChannel.mention}", inline=False)
         embed.add_field(name="This information", value="You can get this info by typing `/server`", inline=False)
         return await ctx.send(embed=embed)
 
@@ -50,7 +48,7 @@ class InfoCog(commands.Cog):
              )
              ], guild_ids=[849223970598420480])
     async def modpack_info(self, ctx, type: str):
-        debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=852809555703365672)
+        debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=874658817282048071)
         mmcEmbed = Embed(title="Modpack Installation using MultiMC", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
         mmcEmbed.add_field(name="**# Installation using MMC**", value="""
         *Note: This* ***requires*** *at least MultiMC 5 Version 0.6.12. If your MMC is older, update using the update button or reinstall.*
@@ -84,13 +82,10 @@ class InfoCog(commands.Cog):
         technicEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
 
         if type.lower() == "mmc":
-            print(type.lower())
             await ctx.send(embed=mmcEmbed)
         elif type.lower() == "technic":
-            print(type.lower())
             await ctx.send(embed=technicEmbed)
         elif type.lower() == "manual":
-            print(type.lower())
             await ctx.send(embed=manualEmbed)       
 
         return True
