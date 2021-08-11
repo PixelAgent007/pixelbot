@@ -90,7 +90,6 @@ class LevelCog(commands.Cog):
         for member in self.guild.members:
             if not member.bot:
                 await self.update_data(member)
-                #await self.add_experience(member)
 
     @cog_ext.cog_slash(name="rank", description="Shows your level. If another member is specified as the first arg, his is shown", 
     options=[
