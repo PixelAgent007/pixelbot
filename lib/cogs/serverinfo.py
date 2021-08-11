@@ -34,7 +34,7 @@ class InfoCog(commands.Cog):
             description=f"Check {serverChannel.mention} on how to install the modpack"
         )
         embed.add_field(name="IP:", value="darkmoonsmp.duckdns.org:25635", inline=False)
-        embed.add_field(name="Version:", value="1.16.5 - Fabric", inline=False)
+        embed.add_field(name="Version:", value="1.17.1 - Fabric", inline=False)
         embed.add_field(name="Implemented Datapacks:", value="https://docs.google.com/document/d/1OhRB2pyAqVy8mNCKSw0AZkHZu6eRu0BUYEYrFr3OoHw/edit?usp=sharing", inline=False)
         embed.add_field(name="Whitelist Request:", value=f"{whitelistChannel.mention}", inline=False)
         embed.add_field(name="This information", value="You can get this info by typing `/server`", inline=False)
