@@ -6,9 +6,7 @@
     </a>
     <a href="https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE">
       <img src="https://img.shields.io/github/license/PixelAgent007/pixelbot?style=flat-square&logo=GNU" alt="License"
-    />
-</p>	
-
+    /></p>	
 </div>
 
 A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en/stable/) for QOL and Moderation purposes.
@@ -21,10 +19,7 @@ See **LICENSE** for the full license or the header of **bot.py** for a shorter v
 ## Requirements
 + Python => 3.7.3
 + Diverse pip packages (install by running):
-
 `python -m pip install -r requirements.txt`
-
-(or `python3 -m pip install -r requirements.txt`, depends on your setup)
 
 + ffmpeg
 + A PostgreSQL server
