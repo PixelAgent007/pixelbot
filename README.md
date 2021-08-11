@@ -31,3 +31,4 @@ See **LICENSE** for the full license or the header of **bot.py** for a shorter v
 
 + ffmpeg
 + A PostgreSQL server
+ich war hier
