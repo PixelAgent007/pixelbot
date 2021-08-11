@@ -8,7 +8,7 @@ class FunCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @cog_ext.cog_slash(name="rickroll", description="Rickrolls the VC you're currently connected to.")
+    @commands.command(name='rickroll')
     async def rickroll(self, ctx):
         author = ctx.message.author.name
         for vc in ctx.guild.voice_channels:
@@ -33,7 +33,7 @@ class FunCog(commands.Cog):
                         os.rename(file, "rickroll.mp3")
         voice.play(discord.FFmpegPCMAudio("rickroll.mp3"))
 
-    @cog_ext.cog_slash(name="pause", description="Stops the currently playing audio.")
+    @commands.command(name='pause')
     async def pause(self, ctx):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_playing():
@@ -41,7 +41,7 @@ class FunCog(commands.Cog):
         else:
             await ctx.send("Currently no audio is playing.")
 
-    @cog_ext.cog_slash(name="resume", description="Resumes the currently paused audio.")
+    @commands.command(name='resume')
     async def resume(self, ctx):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_paused():
@@ -49,7 +49,7 @@ class FunCog(commands.Cog):
         else:
             await ctx.send("The audio is not paused.")
 
-    @cog_ext.cog_slash(name="stop", description="Stops the currently playing audio.")
+    @commands.command(name='stop')
     async def stop(self, ctx):
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.stop()
