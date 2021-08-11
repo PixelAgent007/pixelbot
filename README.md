@@ -8,7 +8,7 @@
       <img alt="Last commit" src="https://img.shields.io/github/last-commit/PixelAgent007/pixelbot" />
     </a>
     <a href="https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE">
-      <img src="https://img.shields.io/github/license/PixelAgent007/pixelbot?style=flat-square&logo=GNU&label=License" alt="License"
+      <img src="https://img.shields.io/github/license/PixelAgent007/pixelbot?style=flat-square&logo=GNU" alt="License"
     />
 </p>	
 
