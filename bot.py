@@ -46,7 +46,7 @@ initial_extensions = [
     "lib.cogs.serverinfo",
     "lib.cogs.help",
     "lib.cogs.suggestions",
-
+    "lib.cogs.moderation",
     "lib.cogs.rickrolling",
     "lib.cogs.leveling"
 ]

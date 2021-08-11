@@ -33,17 +33,12 @@ class ModerationCog(commands.Cog):
             notimeEmbed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted successfully.**", color=discord.Color.green())
             await ctx.send(embed=notimeEmbed)
         else:
-            endtime = self.convertTime(time)
-            self.c.execute(f"INSERT INTO Mutes (UserID, EndTime) VALUES({member.id}, {endtime})")
-            await member.add_roles(muted_role)
-            embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted until {endtime} UTC.**", color=discord.Color.green())
-            await ctx.send(embed=embed)
-        if time:
             time_dict = {"h": 3600, "s": 1, "m": 60, "d": 86400, "w": 604800}
             secs = int(time[:-1]) * time_dict[time[-1]]
-            if secs > 300:
+            if secs < 300:
                 embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted for {secs} seconds.**", color=discord.Color.green())
                 await member.add_roles(muted_role)
+                await ctx.send(embed=embed)
                 await asyncio.sleep(secs)
                 if muted_role in member.roles:
                     await member.remove_roles(muted_role)
@@ -54,6 +49,12 @@ class ModerationCog(commands.Cog):
                 exists = out[0]
                 if exists == 1:
                     self.c.execute(f"DELETE FROM Mutes WHERE UserID={member.id}")
+            else:
+                endtime = self.convertTime(time)
+                self.c.execute(f"INSERT INTO Mutes (UserID, EndTime) VALUES({member.id}, '{endtime}')")
+                await member.add_roles(muted_role)
+                embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was muted until {endtime} UTC.**", color=discord.Color.green())
+                await ctx.send(embed=embed)
         self.conn.commit()
 
 
@@ -67,7 +68,7 @@ class ModerationCog(commands.Cog):
                 if exists == 1:
                     self.c.execute(f"SELECT EndTime FROM Mutes WHERE UserID={member.id}")
                     endtime = self.c.fetchone()
-                    if datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S") == endtime[0]:
+                    if datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S") == str(endtime[0]).replace("_", " "):
                         self.c.execute(f"DELETE FROM Mutes WHERE UserID={member.id}")
                  
 
@@ -99,15 +100,6 @@ class ModerationCog(commands.Cog):
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await ctx.guild.ban(user=member, reason=reason)
         embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was banned.**", color=discord.Color.green())
-        await ctx.send(embed=embed)
-
-
-    @commands.command(name="unban")
-    @commands.has_role(849949389178535947)
-    async def unban(self, ctx, member, *, reason=None):
-        member = await self.bot.fetch_user(int(member))
-        await ctx.guild.unban(member, reason=reason)
-        embed = discord.Embed(description=f"✅ **{member.display_name}#{member.discriminator} was unbanned.**", color=discord.Color.green())
         await ctx.send(embed=embed)
 
 

@@ -5,3 +5,4 @@ rickroll.mp3
 __pycache__
 .pyc
 settings.json
+database.db

@@ -1,7 +1,7 @@
 {
   "GLOBAL": {
     "PREFIX": "!",
-    "TOKEN": "ODQ4ODE2OTE1NTc3MDQ1MDAy.YLSIWg.P8tG8F3hbAzfbNQLCk0mn0OdY9I"
+    "TOKEN": "ODQ4ODE2OTE1NTc3MDQ1MDAy.YLSIWg.jib7ZMEHVTLlrbvS6zHzZv01O0M"
   },
   "DB": {
     "POSTGRE_CREDENTIALS": "dbname='pixelbot' user='pixelbot' host='newlifesmp.duckdns.org' password=''"
