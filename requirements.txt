@@ -3,3 +3,4 @@ discord
 discord.py
 youtube_dl
 pynacl
+mysql.connector
