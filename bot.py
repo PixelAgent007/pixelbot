@@ -22,6 +22,7 @@ from discord.ext import commands
 from discord.utils import get
 from discord_slash import SlashCommand
 import json
+from lib.disrank.generator import Generator
 
 # Setting activity
 activity = discord.Game(name="/help for Help")
@@ -48,7 +49,8 @@ initial_extensions = [
     "lib.cogs.suggestions",
     "lib.cogs.moderation",
     "lib.cogs.rickrolling",
-    "lib.cogs.leveling"
+
+    "lib.leveling"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:

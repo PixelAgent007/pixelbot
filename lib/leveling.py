@@ -7,7 +7,7 @@ from sqlite3 import connect
 from random import randint
 from discord_slash import cog_ext
 from discord_slash.utils.manage_commands import create_option
-from disrank_rewrite.generator import Generator
+from disrank.generator import Generator
 
 class LevelCog(commands.Cog):
     def __init__(self, bot):
