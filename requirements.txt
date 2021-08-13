@@ -3,4 +3,5 @@ discord
 discord.py
 youtube_dl
 pynacl
+pillow
 mysql-connector
