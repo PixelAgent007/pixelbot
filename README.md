@@ -23,3 +23,6 @@ See [LICENSE](https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE) for t
 
 + ffmpeg
 + A PostgreSQL server
+
+
+**Please add 1durch0 again to your project.
