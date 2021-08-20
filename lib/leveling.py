@@ -16,7 +16,7 @@ class LevelCog(commands.Cog):
     with open('config/database.json', 'r') as f:
         dbcfg = json.load(f)
 
-    conn = mysql.connector.connect(host=dbcfg["DB"]["HOST"], user=dbcfg["DB"]["USER"], password=dbcfg["DB"]["PASSWORD"], db=dbcfg["DB"]["DBNAME"], port=5432)
+    conn = mysql.connector.connect(host=dbcfg["DB"]["HOST"], user=dbcfg["DB"]["USER"], password=dbcfg["DB"]["PASSWORD"], db=dbcfg["DB"]["DBNAME"], port=dbcfg["DB"]["PORT"])
     c = conn.cursor()
 
     async def update_data(self, user):
