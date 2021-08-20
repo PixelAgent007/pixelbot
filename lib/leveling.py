@@ -3,17 +3,20 @@ from discord.ext import commands
 import discord
 import asyncio
 import json
-from sqlite3 import connect
+import mysql.connector
 from random import randint
 from discord_slash import cog_ext
 from discord_slash.utils.manage_commands import create_option
-from disrank.generator import Generator
+from .disrank.generator import Generator
 
 class LevelCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    conn = connect("config/db/database.db", check_same_thread=False)
+    with open('config/database.json', 'r') as f:
+        dbcfg = json.load(f)
+
+    conn = mysql.connector.connect(host=dbcfg["DB"]["HOST"], user=dbcfg["DB"]["USER"], password=dbcfg["DB"]["PASSWORD"], db=dbcfg["DB"]["DBNAME"], port=5432)
     c = conn.cursor()
 
     async def update_data(self, user):
@@ -142,7 +145,6 @@ class LevelCog(commands.Cog):
             userid = tuple([member.id])
             index = members.index(userid)
             rank = int(index + 1)
-            print(rank)
             args = {
 	            'bg_image' : 'https://www.technistone.com/color-range/image-slab/Starlight%20Black_SLAB_web.jpg',
 	            'profile_image' : f'{member.avatar_url}',
