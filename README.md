@@ -22,4 +22,31 @@ See [LICENSE](https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE) for t
 `python -m pip install -r requirements.txt`
 
 + ffmpeg
-+ A PostgreSQL server
++ A mySQL / mariaDB server
+
+## Note
+The files **config/settings.json** and **config/database.json** are required to run, but not included by default (for safety reasons).
+They have the following format:
+##### database.json
+```json
+{
+    "DB": {
+      "USER": "pixelbot",
+      "DBNAME": "pixelbot",
+      "HOST": "",
+      "PASSWORD": "",
+      "PORT": 3306
+    }
+}
+``` 
+
+##### settings.json
+```json
+{
+  "GLOBAL": {
+    "PREFIX": "!",
+    "TOKEN": ""
+  },
+  "GUILDS": {}
+}
+```
