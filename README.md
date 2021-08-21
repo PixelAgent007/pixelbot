@@ -7,6 +7,9 @@
     <a href="https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE">
       <img src="https://img.shields.io/github/license/PixelAgent007/pixelbot?style=flat-square&logo=GNU" alt="License"/>
     </a>
+    <a href="https://wakatime.com/badge/github/PixelAgent007/pixelbot">
+      <img src="https://wakatime.com/badge/github/PixelAgent007/pixelbot.svg"/>
+    </a>
 </div>
 
 A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en/stable/) for QOL and Moderation purposes.
