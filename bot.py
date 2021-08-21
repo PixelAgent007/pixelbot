@@ -43,8 +43,7 @@ bot.command_prefix = prefix
 
 # Loading extensions
 initial_extensions = [
-    "lib.cogs.serverinfo",
-    "lib.cogs.help",
+    "lib.cogs.darkmoonsmp",
     "lib.cogs.suggestions",
     "lib.cogs.moderation",
     "lib.cogs.rickrolling",
@@ -58,22 +57,5 @@ if __name__ == '__main__':
 @bot.event
 async def on_ready():
     print("Bot connected to Discord!")
-
-@bot.event
-async def on_member_join(member):
-    if member.guild.id == 849223970598420480 and not member.bot:
-        name = member.name
-        role = member.guild.get_role(864783434151624704)
-        await member.add_roles(role)
-        embed = Embed(title=f"Welcome, {name}!", colour=Colour(0x71368a), description="""
-        Welcome to the Dark Moon SMP!
-        
-        Please read the `#rules` and if you want to join the official server, check `#server` on how to join. Have a great time!
-        """)
-        await member.send(embed=embed)
-    if member.guild.id == 849223970598420480 and member.bot:
-        role = member.guild.get_role(850837927642005524)
-        await member.add_roles(role)
-
 
 bot.run(token)

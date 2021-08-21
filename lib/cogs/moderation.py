@@ -2,19 +2,22 @@ from discord import Colour, Embed
 from discord.ext import commands, tasks
 import discord
 import asyncio
-from sqlite3 import connect
+import mysql.connector
 from discord_slash import cog_ext
 from discord_slash.utils.manage_commands import create_option
 from discord_slash.utils.manage_commands import create_permission
 from discord_slash.model import SlashCommandPermissionType
-import re
 from datetime import datetime, timedelta
+import json
 
 class ModerationCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    conn = connect("config/db/database.db", check_same_thread=False)
+    with open('config/database.json', 'r') as f:
+        dbcfg = json.load(f)
+
+    conn = mysql.connector.connect(host=dbcfg["DB"]["HOST"], user=dbcfg["DB"]["USER"], password=dbcfg["DB"]["PASSWORD"], db=dbcfg["DB"]["DBNAME"], port=dbcfg["DB"]["PORT"])
     c = conn.cursor()
 
     def convertTime(self, time):
@@ -108,7 +111,7 @@ class ModerationCog(commands.Cog):
     async def purge(self, ctx, amount=10):
         await ctx.channel.purge(limit=amount)
         embed = discord.Embed(description=f"✅ **{amount} messages were deleted.**", color=discord.Color.green())
-        await ctx.send(embed=embed, delete_after=15)
+        await ctx.send(embed=embed, delete_after=5)
 
 def setup(bot):
     bot.add_cog(ModerationCog(bot))

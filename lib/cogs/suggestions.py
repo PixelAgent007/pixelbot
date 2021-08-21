@@ -20,7 +20,6 @@ class Suggest(commands.Cog):
         time = discord.Embed(title=f'Time', description=f'You ran out of time, please try again!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=0xFF4C4C)
         briefembed = discord.Embed(title=f'Suggest', description=f'Please enter the Name of the mod/datapack you want to suggest!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=Colour(0x71368a))
         explainembed = discord.Embed(title=f'Suggest', description=f'Please explain your suggestion in futher detail, and provide links etc!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=Colour(0x71368a))
-        #await ctx.message.delete()
 
         if self.config["GUILDS"][str(ctx.guild.id)]["TOGGLED"] == "ON":
 
@@ -50,15 +49,15 @@ class Suggest(commands.Cog):
                 return
 
             embed = discord.Embed(title=f'Suggestion ID: {self.config["GUILDS"][str(ctx.guild.id)]["ID"]}', colour=Colour(0x71368a))
-            embed.add_field(name=f'Brief Explanation: ', value=f'{brief.content}')
+            embed.add_field(name=f'Datapack / Mod Name: ', value=f'{brief.content}')
             embed.add_field(name=f'Detailed Explanation: ', value=f'{explain.content}')
             embed.set_footer(text=f'Suggestion by: {author.name} • Suggestions by DerpDays')
 
             try:
                 channel = discord.utils.get(ctx.guild.text_channels, id=int(self.config["GUILDS"][str(ctx.guild.id)]["OUTPUT"]))
                 msg = await channel.send(embed=embed)
-            except:
-                await ctx.send(embed=discord.Embed(title=f'Suggest', description=f'Sending your suggestion failed. This could be because the owner didnt set the output properly or your suggestion exceeded 2,000 Chars. To configure the bot properly do {ctx.prefix}suggestsettings', color=0xff4c4c))
+            except Exception as e:
+                await ctx.send(e)
                 return
             await msg.add_reaction("✅")
             await msg.add_reaction("❌")
