@@ -10,6 +10,9 @@
     <a href="https://wakatime.com/badge/github/PixelAgent007/pixelbot">
       <img src="https://wakatime.com/badge/github/PixelAgent007/pixelbot.svg"/>
     </a>
+    <a href="https://discord.gg/eHAhkk2A5C">
+      <img src="https://img.shields.io/discord/849223970598420480"/>
+    </a>
 </div>
 
 A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en/stable/) for QOL and Moderation purposes.
