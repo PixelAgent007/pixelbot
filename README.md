@@ -19,10 +19,12 @@ A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en
 Also has some fun features, and is mainly built for the [Dark Moon SMP](https://discord.gg/eHAhkk2A5C).
 
 ## License
+
 This Project is licensed under the GNU General Public License v3.0.
 See [LICENSE](https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE) for the full license or the header of [bot.py](https://github.com/PixelAgent007/pixelbot/blob/main/bot.py) for a shorter version.
 
 ## Requirements
+
 + Python => 3.7.3
 + Diverse pip packages (install by running):
 `python -m pip install -r requirements.txt`
@@ -31,9 +33,12 @@ See [LICENSE](https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE) for t
 + A mySQL / mariaDB server
 
 ## Note
+
 The files **config/settings.json** and **config/database.json** are required to run, but not included by default (for safety reasons).
 They have the following format:
-##### database.json
+
+### database.json
+
 ```json
 {
     "DB": {
@@ -44,9 +49,10 @@ They have the following format:
       "PORT": 3306
     }
 }
-``` 
+```
 
-##### settings.json
+### settings.json
+
 ```json
 {
   "GLOBAL": {
