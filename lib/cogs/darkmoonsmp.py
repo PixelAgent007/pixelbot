@@ -50,7 +50,7 @@ class InfoCog(commands.Cog):
         )
         embed.add_field(name="IP:", value="darkmoonsmp.duckdns.org:25566", inline=False)
         embed.add_field(name="Version:", value="1.17.1 - Fabric", inline=False)
-        embed.add_field(name="Implemented Datapacks:", value="https://docs.google.com/document/d/1OhRB2pyAqVy8mNCKSw0AZkHZu6eRu0BUYEYrFr3OoHw/edit?usp=sharing", inline=False)
+        embed.add_field(name="Implemented Datapacks *(currently outdated)*:", value="https://docs.google.com/document/d/1OhRB2pyAqVy8mNCKSw0AZkHZu6eRu0BUYEYrFr3OoHw/edit?usp=sharing", inline=False)
         embed.add_field(name="This information", value="You can get this info by typing `/server`", inline=False)
         return await ctx.send(embed=embed)
 
@@ -65,33 +65,30 @@ class InfoCog(commands.Cog):
              ], guild_ids=[849223970598420480])
     async def modpack_info(self, ctx, type: str):
         debugChannel: TextChannel = discord.utils.get(ctx.guild.text_channels, id=874658817282048071)
-        mmcEmbed = Embed(title="Modpack Installation using MultiMC", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
+        mmcEmbed = Embed(title="Modpack Installation using MultiMC", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25566`")
         mmcEmbed.add_field(name="**# Installation using MMC**", value="""
         *Note: This* ***requires*** *at least MultiMC 5 Version 0.6.12. If your MMC is older, update using the update button or reinstall.*
 
         To install the Modpack into MMC, open up MMC and click *Add instance*, Head over to the technic section and 
-        search up DarkMoonSMP. Choose either the Sodium or Optifine Version, press Ok and wait for it to download, 
+        search up *DarkMoonSMP*. Click on the top result, press Ok and wait for it to download.
         """, inline=False)
 
-        manualEmbed = Embed(title="Manual Installation of the Modpack", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
+        manualEmbed = Embed(title="Manual Installation of the Modpack", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25566`")
         manualEmbed.add_field(name="**# Manual Installation**:", value="""Downloading and installing into the Minecraft 
         Launcher. If you don't know how to install fabric modpacks, maybe try the Technic Method instead. 
 
-        Download Optifine Edition *(Worse Performance, but there are Shaders and Zoom)*:
-        http://play.minecraft-newlife.de/darkmoonsmp/Dark%20Moon%20SMP%20Modpack%20(Optifine).zip
-        Download Sodium Edition *(Better FPS / Performance)*:
+        Download:
         http://play.minecraft-newlife.de/darkmoonsmp/Dark%20Moon%20SMP%20Modpack%20(Sodium).zip
         """, inline=False)
-        technicEmbed = Embed(title="Modpack Installation using Technic Launcher", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25635`")
+        technicEmbed = Embed(title="Modpack Installation using Technic Launcher", colour=Colour(0x71368a), description="**IP**: `darkmoonsmp.duckdns.org:25566`")
         technicEmbed.add_field(name="**# Installation using Technic Launcher**", value="""
         If you don't want to install the modpack manually, you can install it using the Technic Launcher. 
 
         Head over to https://www.technicpack.net/download to download it. Even though it says something about installing, 
-        you have to keep the .exe file, because it starts the launcher. But, no worries. If you ever accidentally delete 
+        you have to keep the .exe / .jar file, because it starts the launcher. But, no worries. If you ever accidentally delete 
         it, you can just redownload it. 
 
-        Then, log in with your Mojang / Microsoft account. Head over to the Modpack Section, and search for *DarkMoonSMP*. 
-        Choose either the Optifine or Sodium Version, and click Install.
+        Then, log in with your Mojang / Microsoft account. Head over to the Modpack Section, and search for *DarkMoonSMP*, click on the top search result and click Install.
         """, inline=False)
         manualEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
         mmcEmbed.add_field(name="Help", value=f"If you need help installing the modpack, feel free to ask in {debugChannel.mention}", inline=False)
@@ -111,7 +108,7 @@ class InfoCog(commands.Cog):
         embed = Embed(
             title="Ingame Rules",
             colour=Colour(0x71368a),
-            description="Please note that some of the discord's rules are valid on the minecraft server too and vice versa. This includes Rule 2, 3, 4, 5 (the Voice Chat Mod counts as a VC), 6, 7, 8 (this applies to skins too) and 10."
+            description="Please note that some of the discord's rules are valid on the minecraft server too and vice versa. This includes Rule 2, 3, 4, 6, 7, 8 (this applies to skins too) and 10."
         )
         embed.add_field(name="Rule 1:", value="No begging. Asking once or twice nicely is acceptable.", inline=False)
         embed.add_field(name="Rule 2:", value="No lag machines. Lag machines will result in a immediate ban. Also, don't try it. The server will instantly restart.", inline=False)
@@ -120,6 +117,7 @@ class InfoCog(commands.Cog):
         embed.add_field(name="Rule 5", value="**Set your render distance to a maximum of 10!** It really helps with server lag and is a necessary step against lag.", inline=False)
         embed.add_field(name="Rule 6:", value="If you spawn camp, you get kicked and warned.", inline=False)
         embed.add_field(name="Rule 7:", value="No hacking, this includes X-Raying, Baritone, Duping, Fly-Hacks, Speedhacks, Mobradars, Killaura **and lagswitching.**", inline=False)
+        embed.add_field(name="Rule 8:", value="You may not take waystones from villages. If you craft them, that's ok.", inline=False)
         embed.add_field(name="Note:", value="Punishments may vary depending on the situation, but general punishments include kicks, bans, tempbans and **inventory / playerdata wipes**. It is also possible that a mod / admin will watch you if they think you're doing something suspicious. Please also note that bases may removed incase of duping.", inline=False)
         return await ctx.send(embed=embed)
 
