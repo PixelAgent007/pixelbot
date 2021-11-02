@@ -1,2 +1,0 @@
-CREATE TABLE IF NOT EXISTS exp (UserID BIGINT PRIMARY KEY, CurXP integer DEFAULT 0, XP integer DEFAULT 0, Level integer DEFAULT 1);
-CREATE TABLE IF NOT EXISTS mutes (UserID integer PRIMARY KEY, EndTime text);

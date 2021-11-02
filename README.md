@@ -10,13 +10,10 @@
     <a href="https://wakatime.com/badge/github/PixelAgent007/pixelbot">
       <img src="https://wakatime.com/badge/github/PixelAgent007/pixelbot.svg"/>
     </a>
-    <a href="https://discord.gg/eHAhkk2A5C">
-      <img src="https://img.shields.io/discord/849223970598420480"/>
-    </a>
 </div>
 
 A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en/stable/) for QOL and Moderation purposes.
-Also has some fun features, and is mainly built for the [Dark Moon SMP](https://discord.gg/eHAhkk2A5C).
+Also has some fun features, and was mainly built for the [Dark Moon SMP](https://discord.gg/eHAhkk2A5C).
 
 ## License
 
@@ -25,16 +22,15 @@ See [LICENSE](https://github.com/PixelAgent007/pixelbot/blob/main/LICENSE) for t
 
 ## Requirements
 
-+ Python => 3.7.3
-+ Diverse pip packages (install by running):
++ Python => 3.10
++ Diverse pip packages (install by running):<br>
 `python -m pip install -r requirements.txt`
-
 + ffmpeg
 + A mySQL / mariaDB server
 
 ## Note
 
-The files **config/settings.json** and **config/database.json** are required to run, but not included by default (for safety reasons).
+The file **config/database.json** is required to run, but not included by default (for security reasons).
 They have the following format:
 
 ### database.json
@@ -48,17 +44,5 @@ They have the following format:
       "PASSWORD": "",
       "PORT": 3306
     }
-}
-```
-
-### settings.json
-
-```json
-{
-  "GLOBAL": {
-    "PREFIX": "!",
-    "TOKEN": ""
-  },
-  "GUILDS": {}
 }
 ```

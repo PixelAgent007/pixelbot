@@ -1,27 +1,36 @@
 import discord
 from discord.ext import commands
 from discord import utils, Colour
-from discord.ext.commands import has_permissions
+import mysql.connector
 from discord_slash import cog_ext
 import asyncio
 import json
 
-class Suggest(commands.Cog):
+
+class SuggestionsCog(commands.Cog):
 
     def __init__(self, bot):
-        self.bot = bot
+        self.bot: commands.Bot = bot
+        with open('config/database.json', 'r') as f:
+            self.dbcfg = json.load(f)
+        self.conn = mysql.connector.connect(host=self.dbcfg["DB"]["HOST"], user=self.dbcfg["DB"]["USER"], password=self.dbcfg["DB"]["PASSWORD"], db=self.dbcfg["DB"]["DBNAME"], port=self.dbcfg["DB"]["PORT"])
+        self.c = self.conn.cursor()
+        print("Registered Suggestions Cog")
 
-    with open('config/settings.json', 'r') as f:
-        config = json.load(f)
-
-    @cog_ext.cog_slash(name="suggest", description="Suggest something. Type /suggest and answer the bots questions.", guild_ids=[849223970598420480])
+    @cog_ext.cog_slash(name="suggest", description="Suggest something. Type /suggest and answer the bots questions.")
     async def suggest(self, ctx):
         author = ctx.author
         time = discord.Embed(title=f'Time', description=f'You ran out of time, please try again!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=0xFF4C4C)
         briefembed = discord.Embed(title=f'Suggest', description=f'Please enter the Name of the mod/datapack you want to suggest!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=Colour(0x71368a))
         explainembed = discord.Embed(title=f'Suggest', description=f'Please explain your suggestion in futher detail, and provide links etc!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=Colour(0x71368a))
 
-        if self.config["GUILDS"][str(ctx.guild.id)]["TOGGLED"] == "ON":
+        self.c.execute(f"SELECT isEnabled FROM suggestionSettings WHERE GuildID={ctx.guild.id}")
+        enabled = self.c.fetchone()[0]
+
+        if enabled == "true":
+
+            self.c.execute(f"SELECT tmpID FROM suggestionSettings WHERE GuildID={ctx.guild.id}")
+            id = self.c.fetchone()[0]
 
             def check(m):
                 return True if m.channel.id == ctx.channel.id and m.author.id == author.id else False
@@ -48,25 +57,22 @@ class Suggest(commands.Cog):
                 await timemsg.delete()
                 return
 
-            embed = discord.Embed(title=f'Suggestion ID: {self.config["GUILDS"][str(ctx.guild.id)]["ID"]}', colour=Colour(0x71368a))
+            embed = discord.Embed(title=f'Suggestion ID: {id}', colour=Colour(0x71368a))
             embed.add_field(name=f'Datapack / Mod Name: ', value=f'{brief.content}')
             embed.add_field(name=f'Detailed Explanation: ', value=f'{explain.content}')
             embed.set_footer(text=f'Suggestion by: {author.name} • Suggestions by DerpDays')
 
             try:
-                channel = discord.utils.get(ctx.guild.text_channels, id=int(self.config["GUILDS"][str(ctx.guild.id)]["OUTPUT"]))
+                self.c.execute(f"SELECT outputChannel FROM suggestionSettings WHERE GuildID={ctx.guild.id}")
+                channel: discord.TextChannel = discord.utils.get(ctx.guild.text_channels, id=int(self.c.fetchone()[0]))
                 msg = await channel.send(embed=embed)
             except Exception as e:
                 await ctx.send(e)
                 return
-            await msg.add_reaction("✅")
-            await msg.add_reaction("❌")
+            await msg.add_reaction(u"\u2705") # White checkmark on green bg
+            await msg.add_reaction(u"\u274C") # Red cross
 
-            id = self.config["GUILDS"][str(ctx.guild.id)]["ID"]
-            newid = int(id) + 1
-            self.config["GUILDS"][str(ctx.guild.id)]["ID"] = str(newid)
-            with open('config/settings.json', 'w') as f:
-                json.dump(self.config, f, indent=2)
+            self.c.execute(f"UPDATE suggestionSettings SET tmpID = {int(id) + 1} WHERE GuildID={ctx.guild.id}")
 
 def setup(bot):
-    bot.add_cog(Suggest(bot))
+    bot.add_cog(SuggestionsCog(bot))

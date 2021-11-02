@@ -2,18 +2,22 @@ import discord
 import os
 import youtube_dl
 from discord.ext import commands
-from discord_slash import cog_ext
+
 
 class FunCog(commands.Cog):
     def __init__(self, bot):
-        self.bot = bot
+        self.bot: commands.Bot = bot
+        print("Registered Rickrolling Cog")
 
     @commands.command(name='rickroll')
     async def rickroll(self, ctx):
-        author = ctx.message.author.name
+        if not ctx.author.id == self.bot.owner_id:
+            return
+        await ctx.message.delete()
+        author = ctx.message.author
         for vc in ctx.guild.voice_channels:
             for member in vc.members:
-                if member.name == author:
+                if member == author:
                     await vc.connect()
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.message.guild)
         if not os.path.isfile("rickroll.mp3"):
@@ -35,6 +39,9 @@ class FunCog(commands.Cog):
 
     @commands.command(name='pause')
     async def pause(self, ctx):
+        if not ctx.author.id == self.bot.owner_id:
+            return
+        await ctx.message.delete()
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_playing():
             voice.pause()
@@ -43,6 +50,9 @@ class FunCog(commands.Cog):
 
     @commands.command(name='resume')
     async def resume(self, ctx):
+        if not ctx.author.id == self.bot.owner_id:
+            return
+        await ctx.message.delete()
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice.is_paused():
             voice.resume()
@@ -51,12 +61,16 @@ class FunCog(commands.Cog):
 
     @commands.command(name='stop')
     async def stop(self, ctx):
+        if not ctx.author.id == self.bot.owner_id:
+            return
+        await ctx.message.delete()
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         voice.stop()
         if voice.is_connected():
             await voice.disconnect()
         else:
             await ctx.send("The bot is not connected to a voice channel.")
+
 
 def setup(bot):
     bot.add_cog(FunCog(bot))
