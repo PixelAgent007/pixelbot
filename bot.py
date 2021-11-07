@@ -51,6 +51,7 @@ bot.command_prefix = prefix
 initial_extensions = [
     "lib.cogs.suggestions",
     "lib.cogs.moderation",
+    "lib.cogs.darkmoon",
     #"lib.cogs.leveling",
     "lib.cogs.rickrolling"
 ]
@@ -62,7 +63,6 @@ if __name__ == '__main__':
 @bot.event
 async def on_ready():
     print("Bot connected to Discord!")
-
 
 
 bot.run(token)

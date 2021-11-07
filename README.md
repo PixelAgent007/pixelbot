@@ -13,7 +13,7 @@
 </div>
 
 A simple discord bot built with [discord.py](https://discordpy.readthedocs.io/en/stable/) for QOL and Moderation purposes.
-Also has some fun features, and was mainly built for the [Dark Moon SMP](https://discord.gg/eHAhkk2A5C).
+Also has some fun features, and was mainly built for the [Dark Moon SMP](https://discord.gg/hjqn8rXy7Z).
 
 ## License
 

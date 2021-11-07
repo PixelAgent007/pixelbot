@@ -13,13 +13,15 @@ class FunCog(commands.Cog):
     async def rickroll(self, ctx):
         if not ctx.author.id == self.bot.owner_id:
             return
-        await ctx.message.delete()
-        author = ctx.message.author
-        for vc in ctx.guild.voice_channels:
-            for member in vc.members:
-                if member == author:
-                    await vc.connect()
-        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.message.guild)
+        author: discord.Member = ctx.message.author
+        client = ctx.guild.voice_client
+        if not client:
+            if author.voice is None:
+                raise commands.CommandError("You have to be in a voice channel.")
+            else:
+                channel = author.voice.channel
+                client: discord.VoiceClient = await channel.connect()
+
         if not os.path.isfile("rickroll.mp3"):
             url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
             ydl_opts = {
@@ -35,41 +37,38 @@ class FunCog(commands.Cog):
                 for file in os.listdir("./"):
                     if file.endswith(".mp3"):
                         os.rename(file, "rickroll.mp3")
-        voice.play(discord.FFmpegPCMAudio("rickroll.mp3"))
+        await ctx.message.delete()
+        client.play(discord.FFmpegPCMAudio("rickroll.mp3"))
 
     @commands.command(name='pause')
     async def pause(self, ctx):
         if not ctx.author.id == self.bot.owner_id:
             return
         await ctx.message.delete()
-        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-        if voice.is_playing():
-            voice.pause()
-        else:
-            await ctx.send("Currently no audio is playing.")
+        for client in self.bot.voice_clients:
+            client: discord.VoiceClient
+            if client.is_playing():
+                client.pause()
 
     @commands.command(name='resume')
     async def resume(self, ctx):
         if not ctx.author.id == self.bot.owner_id:
             return
-        await ctx.message.delete()
-        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-        if voice.is_paused():
-            voice.resume()
-        else:
-            await ctx.send("The audio is not paused.")
+        for client in self.bot.voice_clients:
+            client: discord.VoiceClient
+            if client.is_paused():
+                client.resume()
 
     @commands.command(name='stop')
     async def stop(self, ctx):
         if not ctx.author.id == self.bot.owner_id:
             return
         await ctx.message.delete()
-        voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
-        voice.stop()
-        if voice.is_connected():
-            await voice.disconnect()
-        else:
-            await ctx.send("The bot is not connected to a voice channel.")
+        for client in self.bot.voice_clients:
+            client: discord.VoiceClient
+            if client.is_connected():
+                await client.stop()
+                await client.disconnect()
 
 
 def setup(bot):
