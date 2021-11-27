@@ -23,7 +23,7 @@ from discord.ext import commands
 
 # Defining Bot
 intents = discord.Intents.all()
-activity = discord.Game(name="/help for Help")
+activity = discord.Game(name="on the Dark Moon SMP")
 
 bot = commands.Bot(command_prefix="", activity=activity, status=discord.Status.online, intents=intents,
                    owner_id=487247155741065229)

@@ -133,22 +133,26 @@ class ModerationCog(commands.Cog):
             guild: discord.Guild
             for role in guild.roles:
                 role: discord.Role
-                if(role.name == "Muted"):
+                if role.name == "Muted":
                     i += 1
+                    await self.set_muted_role(role, guild)
             if i == 0:
                 mutedRole = await guild.create_role(name="Muted")
-                ii = 1
-                err = False
-                while not err:
-                    try:
-                        await mutedRole.edit(position=ii + 1)
-                        await sleep(2)
-                    except HTTPException as e:
-                        err = True
-                        print(e)
-                        pass
-                for channel in guild.channels:
-                    await channel.set_permissions(mutedRole, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+                await self.set_muted_role(mutedRole, guild)
+
+    async def set_muted_role(self, role: discord.Role, guild: discord.Guild):
+        for channel in guild.text_channels:
+            await channel.set_permissions(role, speak=False, send_messages=False, read_message_history=True, read_messages=False)
+        err = False
+        i = 1
+        while not err:
+            try:
+                await role.edit(position=i + 1)
+                await sleep(2)
+            except HTTPException as e:
+                err = True
+                print(e)
+                pass
 
 
 def setup(bot):

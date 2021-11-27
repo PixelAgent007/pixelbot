@@ -1,3 +1,5 @@
+import asyncio
+
 from discord import Colour, Embed
 from discord.ext import commands
 from discord_slash import cog_ext
@@ -134,6 +136,18 @@ class DarkmoonCog(commands.Cog):
                         value="Punishments may vary depending on the situation, but general punishments include kicks, bans, tempbans and **inventory / playerdata wipes**. It is also possible that a mod / admin will watch you if they think you're doing something suspicious. Please also note that bases may removed incase of duping.",
                         inline=False)
         return await ctx.send(embed=embed)
+
+    @cog_ext.cog_slash(name="massping", description="Ping the co-owner",
+                       guild_ids=[906804682452779058])
+    async def send_rules(self, ctx):
+        if not ctx.author.id == 487247155741065229:
+            return False
+        member: discord.Member = discord.utils.get(ctx.guild.members, id=685771268988993548)
+
+        for i in range(10):
+            await ctx.send(f"{member.mention}")
+            await asyncio.sleep(0.1)
+        return True
 
 
 def setup(bot):
