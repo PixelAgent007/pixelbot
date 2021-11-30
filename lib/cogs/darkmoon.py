@@ -113,9 +113,9 @@ class DarkmoonCog(commands.Cog):
             colour=Colour(0x71368a),
             description=""
         )
-        embed.add_field(name="Rule 1:", value="No begging. Asking once or twice nicely is acceptable.", inline=False)
+        embed.add_field(name="Rule 1:", value="No lag machines. Lag machines will result in a immediate ban. Also, don't try it. The server will instantly restart.", inline=False)
         embed.add_field(name="Rule 2:",
-                        value="No lag machines. Lag machines will result in a immediate ban. Also, don't try it. The server will instantly restart.",
+                        value="No hacking, this includes X-Raying, Baritone, Duping, Fly-Hacks, Speedhacks, Mobradars, Killaura **and lagswitching.**",
                         inline=False)
         embed.add_field(name="Rule 3:",
                         value="If farms cause lag, they will be removed by admins, if you don't turn them off yourself. **You will not be refunded any materials.**",
@@ -127,22 +127,29 @@ class DarkmoonCog(commands.Cog):
                         value="**Set your render distance to a maximum of 10!** It really helps with server lag and is a necessary step against lag.",
                         inline=False)
         embed.add_field(name="Rule 6:", value="If you spawn camp, you get kicked and warned.", inline=False)
-        embed.add_field(name="Rule 7:",
-                        value="No hacking, this includes X-Raying, Baritone, Duping, Fly-Hacks, Speedhacks, Mobradars, Killaura **and lagswitching.**",
-                        inline=False)
-        embed.add_field(name="Rule 8:", value="You may not take waystones from villages. If you craft them, that's ok.",
-                        inline=False)
         embed.add_field(name="Note:",
                         value="Punishments may vary depending on the situation, but general punishments include kicks, bans, tempbans and **inventory / playerdata wipes**. It is also possible that a mod / admin will watch you if they think you're doing something suspicious. Please also note that bases may removed incase of duping.",
                         inline=False)
         return await ctx.send(embed=embed)
 
-    @cog_ext.cog_slash(name="massping", description="Ping the co-owner",
+    @cog_ext.cog_slash(name="pingyogd", description="Ping the co-owner",
                        guild_ids=[906804682452779058])
-    async def send_rules(self, ctx):
+    async def mass_ping(self, ctx):
         if not ctx.author.id == 487247155741065229:
             return False
         member: discord.Member = discord.utils.get(ctx.guild.members, id=685771268988993548)
+
+        for i in range(10):
+            await ctx.send(f"{member.mention}")
+            await asyncio.sleep(0.1)
+        return True
+
+    @cog_ext.cog_slash(name="pinggod", description="Ping le owner",
+                       guild_ids=[906804682452779058])
+    async def mass_ping(self, ctx):
+        if not ctx.author.id == 685771268988993548 or ctx.author.id == 487247155741065229:
+            return False
+        member: discord.Member = discord.utils.get(ctx.guild.members, id=487247155741065229)
 
         for i in range(10):
             await ctx.send(f"{member.mention}")

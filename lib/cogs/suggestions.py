@@ -17,7 +17,8 @@ class SuggestionsCog(commands.Cog):
         self.c = self.conn.cursor()
         print("Registered Suggestions Cog")
 
-    @cog_ext.cog_slash(name="suggest", description="Suggest something. Type /suggest and answer the bots questions.")
+    @cog_ext.cog_slash(name="suggest", description="Suggest something. Type /suggest and answer the bots questions.",
+                       guild_ids=[906804682452779058])
     async def suggest(self, ctx):
         author = ctx.author
         time = discord.Embed(title=f'Time', description=f'You ran out of time, please try again!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=0xFF4C4C)
@@ -25,12 +26,12 @@ class SuggestionsCog(commands.Cog):
         explainembed = discord.Embed(title=f'Suggest', description=f'Please explain your suggestion in futher detail, and provide links etc!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=Colour(0x71368a))
 
         self.c.execute(f"SELECT isEnabled FROM suggestionSettings WHERE GuildID={ctx.guild.id}")
-        enabled = self.c.fetchone()[0]
+        enabled = self.c.fetchone()
 
         if enabled == "true":
 
             self.c.execute(f"SELECT tmpID FROM suggestionSettings WHERE GuildID={ctx.guild.id}")
-            id = self.c.fetchone()[0]
+            id = self.c.fetchone()
 
             def check(m):
                 return True if m.channel.id == ctx.channel.id and m.author.id == author.id else False
