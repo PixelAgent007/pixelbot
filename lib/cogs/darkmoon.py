@@ -147,7 +147,7 @@ class DarkmoonCog(commands.Cog):
     @cog_ext.cog_slash(name="pinggod", description="Ping le owner",
                        guild_ids=[906804682452779058])
     async def mass_ping_me(self, ctx):
-        if not ctx.author.id == 487247155741065229:
+        if not ctx.author.id == 685771268988993548:
             return False
         member: discord.Member = discord.utils.get(ctx.guild.members, id=487247155741065229)
 
