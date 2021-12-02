@@ -26,12 +26,12 @@ class SuggestionsCog(commands.Cog):
         explainembed = discord.Embed(title=f'Suggest', description=f'Please explain your suggestion in futher detail, and provide links etc!', footer=f'Suggestion by: {author.name} • Suggestions by DerpDays', color=Colour(0x71368a))
 
         self.c.execute(f"SELECT isEnabled FROM suggestionSettings WHERE GuildID={ctx.guild.id}")
-        enabled = self.c.fetchone()
+        enabled = self.c.fetchone()[0]
 
         if enabled == "true":
 
             self.c.execute(f"SELECT tmpID FROM suggestionSettings WHERE GuildID={ctx.guild.id}")
-            id = self.c.fetchone()
+            id = self.c.fetchone()[0]
 
             def check(m):
                 return True if m.channel.id == ctx.channel.id and m.author.id == author.id else False
