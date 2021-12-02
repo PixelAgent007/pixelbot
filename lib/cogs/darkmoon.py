@@ -73,7 +73,7 @@ class DarkmoonCog(commands.Cog):
         Launcher. If you don't know how to install fabric modpacks, maybe try the Technic Method instead. 
 
         Download:
-        https://bit.ly/3ke4xPq
+        https://l.oskar.global/darkmoondownload
         """, inline=False)
         technicEmbed = Embed(title="Modpack Installation using Technic Launcher", colour=Colour(0x71368a),
                              description="**IP**: `mc.oskar.global`")
