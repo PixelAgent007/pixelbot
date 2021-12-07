@@ -53,6 +53,7 @@ initial_extensions = [
     "lib.cogs.moderation",
     "lib.cogs.darkmoon",
     #"lib.cogs.leveling",
+    "lib.cogs.utils",
     "lib.cogs.rickrolling"
 ]
 if __name__ == '__main__':

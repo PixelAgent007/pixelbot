@@ -128,6 +128,7 @@ class ModerationCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        """
         for guild in self.bot.guilds:
             i = 0
             guild: discord.Guild
@@ -139,6 +140,7 @@ class ModerationCog(commands.Cog):
             if i == 0:
                 mutedRole = await guild.create_role(name="Muted")
                 await self.set_muted_role(mutedRole, guild)
+        """
 
     async def set_muted_role(self, role: discord.Role, guild: discord.Guild):
         for channel in guild.text_channels:
