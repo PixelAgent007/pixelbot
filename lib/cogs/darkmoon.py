@@ -41,8 +41,8 @@ class DarkmoonCog(commands.Cog):
         )
         embed.add_field(name="IP:", value="mc.oskar.global", inline=False)
         embed.add_field(name="Version:", value="1.17.1 - Fabric", inline=False)
-        embed.add_field(name="Implemented Datapacks *(currently outdated)*:",
-                        value="https://docs.google.com/document/d/1OhRB2pyAqVy8mNCKSw0AZkHZu6eRu0BUYEYrFr3OoHw/edit?usp=sharing",
+        embed.add_field(name="Implemented Datapacks:",
+                        value="https://l.oskar.global/darkmoonorigins",
                         inline=False)
         embed.add_field(name="This information", value="You can get this info by typing `/server`", inline=False)
         return await ctx.send(embed=embed)
