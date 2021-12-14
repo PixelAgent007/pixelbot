@@ -115,6 +115,14 @@ class ModerationCog(commands.Cog):
                               color=discord.Color.green())
         await ctx.send(embed=embed)
 
+    @commands.command(name=".ban")
+    async def fake_ban(self, ctx, member: discord.Member):
+        embed = discord.Embed(description=f"{self.yes} **{member.display_name}#{member.discriminator} was banned.**",
+                              color=discord.Color.green())
+        channel = await member.create_dm()
+        await channel.send("get neigh neighed n00b")
+        await ctx.send(embed=embed)
+
     @commands.command(name="purge")
     @commands.has_permissions(administrator=True)
     async def purge(self, ctx, amount=10):
