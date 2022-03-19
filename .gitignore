@@ -2,3 +2,4 @@ rickroll.mp3
 __pycache__
 .pyc
 **/database.json
+**/config.json

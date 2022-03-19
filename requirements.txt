@@ -4,5 +4,4 @@ discord.py
 youtube_dl
 pynacl
 pillow
-mysql-connector
 requests

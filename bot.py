@@ -17,7 +17,6 @@
 
 import json
 import discord
-import mysql.connector
 from discord_slash import SlashCommand
 from discord.ext import commands
 
@@ -33,28 +32,18 @@ slash = SlashCommand(bot, sync_commands=True, sync_on_cog_reload=True)
 bot.remove_command("help")
 
 # Loading DB
-with open('config/database.json', 'r') as f:
-    dbcfg = json.load(f)
-
-conn = mysql.connector.connect(host=dbcfg["DB"]["HOST"], user=dbcfg["DB"]["USER"], password=dbcfg["DB"]["PASSWORD"],
-                               db=dbcfg["DB"]["DBNAME"], port=dbcfg["DB"]["PORT"])
-c = conn.cursor()
-c.execute(f"SELECT Token FROM globalSettings")
-token = c.fetchone()[0]
-c.execute(f"SELECT Prefix FROM globalSettings")
-prefix = c.fetchone()[0]
+with open('config/config.json', 'r') as f:
+    config = json.load(f)
 
 # Getting vars from config
-bot.command_prefix = prefix
+bot.command_prefix = config["prefix"]
 
 # Loading extensions
 initial_extensions = [
-    "lib.cogs.suggestions",
-    "lib.cogs.moderation",
-    "lib.cogs.darkmoon",
-    #"lib.cogs.leveling",
     "lib.cogs.utils",
-    "lib.cogs.rickrolling"
+    "lib.cogs.rickrolling",
+    "lib.cogs.hunter",
+    "lib.cogs.fun"
 ]
 if __name__ == '__main__':
     for extension in initial_extensions:
@@ -66,4 +55,4 @@ async def on_ready():
     print("Bot connected to Discord!")
 
 
-bot.run(token)
+bot.run(config["token"])

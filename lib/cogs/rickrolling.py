@@ -4,7 +4,7 @@ import youtube_dl
 from discord.ext import commands
 
 
-class FunCog(commands.Cog):
+class RickrollCog(commands.Cog):
     def __init__(self, bot):
         self.bot: commands.Bot = bot
         print("Registered Rickrolling Cog")
@@ -68,8 +68,7 @@ class FunCog(commands.Cog):
             client: discord.VoiceClient
             if client.is_connected():
                 await client.stop()
-                await client.disconnect()
 
 
 def setup(bot):
-    bot.add_cog(FunCog(bot))
+    bot.add_cog(RickrollCog(bot))
